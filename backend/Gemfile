@@ -67,6 +67,11 @@ gem "letter_opener_web"
 gem "pry-byebug"
 gem "pry-doc"
 gem "pry-rails"
+
 # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
 gem "rubocop-rails-omakase", require: false
+
+# テスト用データを作成する
+gem "factory_bot_rails"
+gem "faker"
 end

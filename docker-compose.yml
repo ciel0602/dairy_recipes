@@ -8,7 +8,16 @@ services:
       - "3306:3306"
     volumes:
       - db-data:/var/lib/mysql
-
+  front:
+      build:
+        context: ./frontend
+        dockerfile: Dockerfile
+      tty: true
+      stdin_open: true
+      volumes:
+        - ./frontend:/app
+      ports:
+        - "8000:3000"
   back:
     build:
       context: ./backend
