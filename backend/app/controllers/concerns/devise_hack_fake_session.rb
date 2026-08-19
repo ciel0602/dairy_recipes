@@ -11,7 +11,7 @@ module DeviseHackFakeSession
   end
 
   included do
-    before_action:set_fake_session
+    before_action :set_fake_session
 
     private
 
