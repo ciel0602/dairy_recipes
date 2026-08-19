@@ -33,6 +33,7 @@ jobs:
           ruby-version: '4.0.6'
           bundler: '4.0.18'
           bundler-cache: true
+          working-directory: backend
 
       - name: Cache node modules
         uses: actions/cache@v3
@@ -67,6 +68,7 @@ jobs:
           ruby-version: '4.0.6'
           bundler: '4.0.18'
           bundler-cache: true
+          working-directory: backend
 
       - name: Run rubocop
         run: bundle exec rubocop
