@@ -1,4 +1,5 @@
 'use client'
+import useUserState from "@/app/hooks/useGlobalState";
 import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
@@ -6,6 +7,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 export default function LoginForm(){
   const router = useRouter();
+  const [user,setUser] = useUserState();
 
   type LoginFormData = {
     email: string;
@@ -16,7 +18,7 @@ export default function LoginForm(){
     })
 
   const onSubmit:SubmitHandler<LoginFormData> = (data) => {
-    const url =  'http://localhost:3000/api/v1/auth/sign_in'
+    const url =  process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/auth/sign_in'
     const headers = {'Content-Type': 'application/json'}
 
     axios({method:'POST', url:url,data:data,headers:headers})
@@ -24,8 +26,11 @@ export default function LoginForm(){
         localStorage.setItem('access-token', res.headers['access-token'])
         localStorage.setItem('client', res.headers['client'])
         localStorage.setItem('uid', res.headers['uid'])
-        router.push('/')
-        console.log("全ヘッダー:", res.headers);
+        setUser({
+          ...user,
+          isFetched:false,
+        })
+        router.push('/recipes')
       })
       .catch((e:AxiosError<{error:string}>)=> {
         console.log(e.message)

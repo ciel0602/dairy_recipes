@@ -5,6 +5,7 @@ import "@/app/globals.css";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/app/styles/theme";
 import { CssBaseline } from "@mui/material";
+import CurrentUserFetch from "./components/CurrentUserFetch";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline/>
+            <CurrentUserFetch/>
             {children}
           </ThemeProvider>
         </AppRouterCacheProvider>

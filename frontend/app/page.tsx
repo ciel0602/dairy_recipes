@@ -1,7 +1,7 @@
 "use client"
 import useSWR from 'swr'
 import { fetcher } from '@/app/api/index'
-import AuthSegmentedControl from './features/auth/auth/page'
+import AuthSegmentedControl from './features/auth/AuthSegmentedControl'
 
 
 export default function HomePage() {
