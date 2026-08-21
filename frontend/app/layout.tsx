@@ -6,6 +6,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/app/styles/theme";
 import { CssBaseline } from "@mui/material";
 import CurrentUserFetch from "./components/CurrentUserFetch";
+import HealthCheck from "./hooks/development/healthcheck";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <ThemeProvider theme={theme}>
             <CssBaseline/>
             <CurrentUserFetch/>
+            <HealthCheck/>
             {children}
           </ThemeProvider>
         </AppRouterCacheProvider>
