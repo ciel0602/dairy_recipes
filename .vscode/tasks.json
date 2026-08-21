@@ -1,0 +1,76 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Integration",
+      "icon": {"id": "debug-start", "color": "terminal.ansiBlack"},
+      "type": "shell",
+      "command":"echo 'commond done.'",
+      "isBackground": true,
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "dependsOn":["frontend","backend","git","root"]
+    },
+    {
+      "label": "docker compose up",
+      "icon": {"id": "terminal", "color": "terminal.ansiBlack"},
+      "type": "shell",
+      "command":"docker compose up -d",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "close": true
+      }
+    },
+    {
+      "label": "frontend",
+      "icon": {"id": "vm", "color": "terminal.ansiGreen"},
+      "type": "shell",
+      "command":"sleep 2 && docker compose exec front bash",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "close": false
+      },
+      "dependsOn": ["docker compose up"]
+    },
+    {
+      "label": "backend",
+      "icon": {"id": "folder-library", "color": "terminal.ansiRed"},
+      "type": "shell",
+      "command":"sleep 2 && docker compose exec back bash",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "close": false
+      },
+      "dependsOn":["docker compose up"]
+    },
+    {
+      "label": "git",
+      "icon": {"id":"github","color": "terminal.ansiBlack"},
+      "type": "shell",
+      "command":"$SHELL",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "close": false,
+        "showReuseMessage": false
+      },
+    },
+    {
+      "label": "root",
+      "icon": {"id":"home","color": "terminal.ansiBlue"},
+      "type": "shell",
+      "command":"$SHELL",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "close": false,
+        "showReuseMessage": false
+      },
+    }
+    
+  ]
+}

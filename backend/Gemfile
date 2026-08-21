@@ -8,7 +8,7 @@ gem "mysql2", "~> 0.5"
 gem "puma", ">= 5.0"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
-# 
+#
 # 環境毎の設定管理を行う
 gem "config"
 
