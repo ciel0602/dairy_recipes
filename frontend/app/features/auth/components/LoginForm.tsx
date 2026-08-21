@@ -40,40 +40,40 @@ export default function LoginForm(){
 
   return(
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-            <Box>
+            <Box mb={4}>
+              <label htmlFor="email">メールアドレス</label>
               <Controller
                 name="email"
                 control={control}
                 render={({field}) => (
                   <TextField 
                   {...field}
-                  label="email"
                   fullWidth  
+                  placeholder="your@email.com"
                   variant='outlined'/>
                 )}
                 />
             </Box>
-            <Box>
+            <Box mb={1.5}>
+              <label htmlFor="password">パスワード</label>
               <Controller
                 name="password"
                 control={control}
                 render={({field}) => (
                   <TextField 
                   {...field}
-                  label="password"
                   fullWidth  
+                  placeholder="パスワード"
                   variant='outlined'/>
                 )}
                 />
             </Box>
-            <Link>パスワードをお忘れですか？</Link>
-            <Box>
-              <Button variant='contained' type='submit'>ログイン</Button>
-              <Stack direction="row">
-                <Typography>アカウントをお持ちでない方は</Typography>
-                <Link>新規登録</Link>
-              </Stack>
-            </Box>
+            <Stack direction="row" mb={4} sx={{width:'100%',justifyContent:'end'}}>
+              <Link>パスワードをお忘れですか？</Link>
+            </Stack>
+            <Stack direction="row"  mb={2}  sx={{justifyContent:'center'}}>
+              <Button fullWidth variant='contained' type='submit' sx={{height:'44px'}}>ログイン</Button>
+            </Stack>
           </Box> 
   )
 }

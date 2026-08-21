@@ -18,66 +18,70 @@ export default function SigninForm(){
     console.log('サインインデータ:', data)
   }
   return(
-              <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-            <Box>
+          <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+            <Box mb={4}>
+              <label htmlFor="username">ユーザーネーム</label>
               <Controller
                 name="name"
                 control={control}
                 render={({field}) => (
                   <TextField 
                   {...field}
-                  label="name"
+                  label="ユーザーネーム"
                   fullWidth  
+                  placeholder="料理好きさん"
                   variant='outlined'/>
                 )}
                 />
             </Box>
-            <Box>
+            <Box  mb={4}>
+              <label htmlFor="email">メールアドレス</label>
               <Controller
                 name="email"
                 control={control}
                 render={({field}) => (
                   <TextField 
                   {...field}
-                  label="email"
+                  label="メールアドレス"
                   fullWidth  
+                  placeholder="your@email.com"
                   variant='outlined'/>
                 )}
                 />
             </Box>
-            <Box>
+            <Box mb={4}>
+              <label htmlFor="password">パスワード</label>
               <Controller
                 name="password"
                 control={control}
                 render={({field}) => (
                   <TextField 
                   {...field}
-                  label="password"
+                  label="パスワード"
                   fullWidth  
+                  placeholder="パスワード（8文字以上）"
                   variant='outlined'/>
                 )}
                 />
             </Box>
-            <Box>
+            <Box mb={4}>
+              <label htmlFor="confirmPassword">パスワード（確認）</label>
               <Controller
                 name="confirmPassword"
                 control={control}
                 render={({field}) => (
                   <TextField 
                   {...field}
-                  label="confirmPassword"
+                  label="パスワード確認"
                   fullWidth  
+                  placeholder="パスワード（8文字以上）"
                   variant='outlined'/>
                 )}
                 />
             </Box>
-            <Box>
-              <Button variant='contained'>アカウントを作成</Button>
-              <Stack direction="row">
-                <Typography>すでにアカウントをお持ちの方は</Typography>
-                <Link>ログイン</Link>
-              </Stack>
-            </Box>
+            <Stack direction="row" mb={1.5} sx={{width:'100%',justifyContent:'center',alignItems:'center'}}>
+              <Button fullWidth variant='contained' sx={{height:'44px'}}>アカウントを作成</Button>
+            </Stack>
           </Box>
   )
 }
