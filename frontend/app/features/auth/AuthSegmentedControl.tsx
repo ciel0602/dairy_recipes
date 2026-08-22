@@ -2,7 +2,7 @@
 import { Box,  Button,  Container,  Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import { useState } from 'react'
 import LoginForm from './components/LoginForm';
-import SigninForm from './components/signinForm';
+import SigninForm from './components/signupForm';
 
 
 export default function AuthSegmentedControl(){
@@ -69,7 +69,7 @@ export default function AuthSegmentedControl(){
                     boxShadow:'0 2px 6px rgba(0,0,0,0.08)',
                     '&:hover': {
                       backgroundColor:'#ffffff'}}
-              }}>サインイン</ToggleButton>
+              }}>サインアップ</ToggleButton>
           </ToggleButtonGroup>
 
           {/* ログインフォーム */}
@@ -97,7 +97,7 @@ export default function AuthSegmentedControl(){
             </>)
           }
           
-          {/* サインインフォーム */}
+          {/* サインアップフォーム */}
           {authMode === 'signin' && (
             <>              
               <SigninForm/>

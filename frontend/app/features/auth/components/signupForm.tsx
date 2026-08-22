@@ -1,10 +1,10 @@
 'use client'
 import { Box, Button,  Stack, TextField,} from "@mui/material";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
-export default function SigninForm(){
+export default function SignupForm(){
   const router = useRouter();
   type SigninFormData = {
     name:string;
@@ -21,7 +21,7 @@ export default function SigninForm(){
 
     const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/auth'
     const headers = {'Content-Type': 'application/json'}
-    const confirmSuccessUrl = process.env.NEXT_PUBLIC_FRONT_BASE_URL + '/sign_in'
+    const confirmSuccessUrl = process.env.NEXT_PUBLIC_FRONT_BASE_URL + '/recipes'
 
     await axios({
       method:'POST',
@@ -29,11 +29,8 @@ export default function SigninForm(){
       headers:headers,
       data:{ ...data,confirm_success_url:confirmSuccessUrl}
     })
-    .then((res:AxiosResponse)=> {
-      localStorage.setItem('access-token',res.headers['access-token'] || '',)
-      localStorage.setItem('client',res.headers['client'] || '',)
-      localStorage.setItem('uid',res.headers['uid'] || '',)
-      router.push('/recipes')
+    .then(()=> {
+      router.push('/')
     })
     .catch((e:AxiosError<{error:string}>) => {
       console.log(e.message)
@@ -52,7 +49,6 @@ export default function SigninForm(){
                   <TextField 
                   {...field}
                   id="name"
-                  label="ユーザーネーム"
                   fullWidth  
                   placeholder="料理好きさん"
                   variant='outlined'/>
@@ -68,7 +64,6 @@ export default function SigninForm(){
                   <TextField 
                   {...field}
                   id="email"
-                  label="メールアドレス"
                   fullWidth  
                   placeholder="your@email.com"
                   variant='outlined'/>
@@ -84,7 +79,6 @@ export default function SigninForm(){
                   <TextField 
                   {...field}
                   id="password"
-                  label="パスワード"
                   fullWidth  
                   placeholder="パスワード（8文字以上）"
                   variant='outlined'/>
@@ -100,7 +94,6 @@ export default function SigninForm(){
                   <TextField 
                   id="confirmPassword"
                   {...field}
-                  label="パスワード確認"
                   fullWidth  
                   placeholder="パスワード（8文字以上）"
                   variant='outlined'/>
