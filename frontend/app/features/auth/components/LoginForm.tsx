@@ -48,6 +48,7 @@ export default function LoginForm(){
                 render={({field}) => (
                   <TextField 
                   {...field}
+                  id="email"
                   fullWidth  
                   placeholder="your@email.com"
                   variant='outlined'/>
@@ -62,6 +63,7 @@ export default function LoginForm(){
                 render={({field}) => (
                   <TextField 
                   {...field}
+                  id="password"
                   fullWidth  
                   placeholder="パスワード"
                   variant='outlined'/>
