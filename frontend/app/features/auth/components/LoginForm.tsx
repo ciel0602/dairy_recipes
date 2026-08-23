@@ -1,14 +1,17 @@
 'use client'
 import useUserState from "@/app/hooks/useGlobalState";
-import { Box, Button, Link, Stack, TextField,  } from "@mui/material";
+import { Box, Link, Stack, TextField,  } from "@mui/material";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import loginValidationRules from "../util/LoginValidationRules";
+import { LoadingButton } from "@mui/lab";
+import { useState } from "react";
 
 export default function LoginForm(){
   const router = useRouter();
   const [user,setUser] = useUserState();
+  const [isLoading, setIsLoading] = useState(false);
 
   type LoginFormData = {
     email: string;
@@ -19,10 +22,12 @@ export default function LoginForm(){
     })
 
   const onSubmit:SubmitHandler<LoginFormData> = (data) => {
-    const url =  process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/auth/sign_in'
-    const headers = {'Content-Type': 'application/json'}
+    const LogIn = async(data:LoginFormData) =>{
+      setIsLoading(true)
+      const url =  process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/auth/sign_in'
+      const headers = {'Content-Type': 'application/json'}
 
-    axios({method:'POST', url:url,data:data,headers:headers})
+    await axios({method:'POST', url:url,data:data,headers:headers})
       .then((res:AxiosResponse) => {
         localStorage.setItem('access-token', res.headers['access-token'])
         localStorage.setItem('client', res.headers['client'])
@@ -36,6 +41,9 @@ export default function LoginForm(){
       .catch((e:AxiosError<{error:string}>)=> {
         console.log(e.message)
       })
+      setIsLoading(false)
+    }
+    LogIn(data)
   }
   
 
@@ -81,7 +89,7 @@ export default function LoginForm(){
               <Link>パスワードをお忘れですか？</Link>
             </Stack>
             <Stack direction="row"  mb={2}  sx={{justifyContent:'center'}}>
-              <Button fullWidth variant='contained' type='submit' sx={{height:'44px'}}>ログイン</Button>
+              <LoadingButton loading={isLoading} fullWidth variant='contained' type='submit' sx={{height:'44px'}}>ログイン</LoadingButton>
             </Stack>
           </Box> 
   )

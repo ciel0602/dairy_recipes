@@ -1,12 +1,15 @@
 'use client'
-import { Box, Button,  Stack, TextField,} from "@mui/material";
+import { Box, Stack, TextField,} from "@mui/material";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import validationRules from "../util/SignupValidationRules";
+import { LoadingButton } from "@mui/lab";
+import { useState } from "react";
 
 export default function SignupForm(){
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   type SigninFormData = {
     name:string;
     email: string;
@@ -24,26 +27,27 @@ export default function SignupForm(){
 
   const onSubmit:SubmitHandler<SigninFormData> =(data) => {
     const SignUp = async(data: SigninFormData) => {
+      setIsLoading(true)
+      const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/auth'
+      const headers = {'Content-Type': 'application/json'}
+      const confirmSuccessUrl = process.env.NEXT_PUBLIC_FRONT_BASE_URL + '/recipes'
 
-    const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/auth'
-    const headers = {'Content-Type': 'application/json'}
-    const confirmSuccessUrl = process.env.NEXT_PUBLIC_FRONT_BASE_URL + '/recipes'
-
-    await axios({
-      method:'POST',
-      url:url,
-      headers:headers,
-      data:{ ...data,confirm_success_url:confirmSuccessUrl}
-    })
-    .then(()=> {
-      router.push('/')
-    })
-    .catch((e:AxiosError<{error:string}>) => {
-      console.log(e.message)
-    })
+      await axios({
+        method:'POST',
+        url:url,
+        headers:headers,
+        data:{ ...data,confirm_success_url:confirmSuccessUrl}
+      })
+      .then(()=> {
+        router.push('/')
+      })
+      .catch((e:AxiosError<{error:string}>) => {
+        console.log(e.message)
+      })
+      setIsLoading(false)
+    }
+    SignUp(data)
   }
-  SignUp(data)
-}
   return(
           <Box component="form" onSubmit={handleSubmit(onSubmit)}>
             <Box mb={4}>
@@ -119,7 +123,7 @@ export default function SignupForm(){
                 />
             </Box>
             <Stack direction="row" mb={1.5} sx={{width:'100%',justifyContent:'center',alignItems:'center'}}>
-              <Button fullWidth variant='contained' sx={{height:'44px'}} type="submit" disabled={password !== confirmPassword}>アカウントを作成</Button>
+              <LoadingButton loading={isLoading} fullWidth variant='contained' sx={{height:'44px'}} type="submit" disabled={password !== confirmPassword}>アカウントを作成</LoadingButton>
             </Stack>
           </Box>
   )
