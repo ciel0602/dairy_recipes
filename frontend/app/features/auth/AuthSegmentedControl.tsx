@@ -2,7 +2,7 @@
 import { Box,  Button,  Container,  Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import { useState } from 'react'
 import LoginForm from './components/LoginForm';
-import SigninForm from './components/signupForm';
+import SigninForm from './components/SignupForm';
 
 
 export default function AuthSegmentedControl(){

@@ -4,6 +4,7 @@ import { Box, Button, Link, Stack, TextField,  } from "@mui/material";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import loginValidationRules from "../util/LoginValidationRules";
 
 export default function LoginForm(){
   const router = useRouter();
@@ -45,10 +46,13 @@ export default function LoginForm(){
               <Controller
                 name="email"
                 control={control}
-                render={({field}) => (
+                rules={loginValidationRules.email}
+                render={({field,fieldState}) => (
                   <TextField 
                   {...field}
                   id="email"
+                  error={fieldState.invalid}
+                  helperText={fieldState.error?.message}
                   fullWidth  
                   placeholder="your@email.com"
                   variant='outlined'/>
@@ -60,10 +64,13 @@ export default function LoginForm(){
               <Controller
                 name="password"
                 control={control}
-                render={({field}) => (
+                rules={loginValidationRules.password}
+                render={({field,fieldState}) => (
                   <TextField 
                   {...field}
                   id="password"
+                  error={fieldState.invalid}
+                  helperText={fieldState.error?.message}
                   fullWidth  
                   placeholder="パスワード"
                   variant='outlined'/>

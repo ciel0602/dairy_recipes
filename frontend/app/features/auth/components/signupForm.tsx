@@ -2,7 +2,8 @@
 import { Box, Button,  Stack, TextField,} from "@mui/material";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
+import validationRules from "../util/SignupValidationRules";
 
 export default function SignupForm(){
   const router = useRouter();
@@ -16,6 +17,11 @@ export default function SignupForm(){
   const { handleSubmit, control } = useForm<SigninFormData>({
       defaultValues: {name:'', email: '', password: '',confirmPassword:'' }
     })
+
+  // パスワードと確認パスワードが一致しているかチェック
+    const password = useWatch({control, name:'password'});
+    const confirmPassword = useWatch({control, name:'confirmPassword'});
+
   const onSubmit:SubmitHandler<SigninFormData> =(data) => {
     const SignUp = async(data: SigninFormData) => {
 
@@ -45,10 +51,13 @@ export default function SignupForm(){
               <Controller
                 name="name"
                 control={control}
-                render={({field}) => (
+                rules={validationRules.name}
+                render={({field,fieldState}) => (
                   <TextField 
                   {...field}
                   id="name"
+                  error={fieldState.invalid}
+                  helperText={fieldState.error?.message}
                   fullWidth  
                   placeholder="料理好きさん"
                   variant='outlined'/>
@@ -60,10 +69,13 @@ export default function SignupForm(){
               <Controller
                 name="email"
                 control={control}
-                render={({field}) => (
+                rules={validationRules.email}
+                render={({field, fieldState}) => (
                   <TextField 
                   {...field}
                   id="email"
+                  error={fieldState.invalid}
+                  helperText={fieldState.error?.message}
                   fullWidth  
                   placeholder="your@email.com"
                   variant='outlined'/>
@@ -75,10 +87,13 @@ export default function SignupForm(){
               <Controller
                 name="password"
                 control={control}
-                render={({field}) => (
+                rules={validationRules.password}
+                render={({field,fieldState}) => (
                   <TextField 
                   {...field}
                   id="password"
+                  error={fieldState.invalid}
+                  helperText={fieldState.error?.message}
                   fullWidth  
                   placeholder="パスワード（8文字以上）"
                   variant='outlined'/>
@@ -96,12 +111,15 @@ export default function SignupForm(){
                   {...field}
                   fullWidth  
                   placeholder="パスワード（8文字以上）"
-                  variant='outlined'/>
+                  variant='outlined'
+                  error = {password !== confirmPassword}
+                  helperText={password !== confirmPassword ? 'パスワードが一致しません': ''}
+                  />
                 )}
                 />
             </Box>
             <Stack direction="row" mb={1.5} sx={{width:'100%',justifyContent:'center',alignItems:'center'}}>
-              <Button fullWidth variant='contained' sx={{height:'44px'}} type="submit">アカウントを作成</Button>
+              <Button fullWidth variant='contained' sx={{height:'44px'}} type="submit" disabled={password !== confirmPassword}>アカウントを作成</Button>
             </Stack>
           </Box>
   )
