@@ -1,6 +1,6 @@
 'use client'
 import useUserState from "@/app/hooks/useGlobalState";
-import { Box, Link, Stack, TextField,  } from "@mui/material";
+import { Box, IconButton, InputAdornment, Link, Stack, TextField,  } from "@mui/material";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -8,11 +8,14 @@ import loginValidationRules from "../util/LoginValidationRules";
 import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
 import { useSnackbarState } from "@/app/hooks/useSnackbarState";
+import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
+import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
 
 export default function LoginForm(){
   const router = useRouter();
   const [user,setUser] = useUserState();
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [,setSnackbar] = useSnackbarState();
 
   type LoginFormData = {
@@ -69,6 +72,7 @@ export default function LoginForm(){
                   <TextField 
                   {...field}
                   id="email"
+                  type="email"
                   error={fieldState.invalid}
                   helperText={fieldState.error?.message}
                   fullWidth  
@@ -87,11 +91,22 @@ export default function LoginForm(){
                   <TextField 
                   {...field}
                   id="password"
+                  type={showPassword ? "text": "password"}
                   error={fieldState.invalid}
                   helperText={fieldState.error?.message}
                   fullWidth  
                   placeholder="パスワード"
-                  variant='outlined'/>
+                  variant='outlined'
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton 
+                          onClick={()=> setShowPassword((prev)=> !prev)} edge="end">
+                            {showPassword ? <VisibilityRoundedIcon/> : <VisibilityOffRoundedIcon/> }
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}/>
                 )}
                 />
             </Box>

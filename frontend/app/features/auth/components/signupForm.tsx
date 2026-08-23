@@ -1,5 +1,5 @@
 'use client'
-import { Box, Stack, TextField,} from "@mui/material";
+import { Box, IconButton, InputAdornment, Stack, TextField,} from "@mui/material";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
@@ -7,11 +7,15 @@ import validationRules from "../util/SignupValidationRules";
 import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
 import { useSnackbarState } from "@/app/hooks/useSnackbarState";
+import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
+import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
+
 
 export default function SignupForm(){
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [,setSnackbar] = useSnackbarState();
+  const [showPassword, setShowPassword] = useState(false);
 
   type SigninFormData = {
     name:string;
@@ -89,11 +93,13 @@ export default function SignupForm(){
                   <TextField 
                   {...field}
                   id="email"
+                  type="email"
                   error={fieldState.invalid}
                   helperText={fieldState.error?.message}
                   fullWidth  
                   placeholder="your@email.com"
-                  variant='outlined'/>
+                  variant='outlined'
+                  />
                 )}
                 />
             </Box>
@@ -107,11 +113,22 @@ export default function SignupForm(){
                   <TextField 
                   {...field}
                   id="password"
+                  type={showPassword ? "text" : "password"}
                   error={fieldState.invalid}
                   helperText={fieldState.error?.message}
                   fullWidth  
                   placeholder="パスワード（8文字以上）"
-                  variant='outlined'/>
+                  variant='outlined'
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton 
+                          onClick={()=> setShowPassword((prev)=> !prev)} edge="end">
+                            {showPassword ? <VisibilityRoundedIcon/> : <VisibilityOffRoundedIcon/> }
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}/>
                 )}
                 />
             </Box>
@@ -123,13 +140,23 @@ export default function SignupForm(){
                 render={({field}) => (
                   <TextField 
                   id="confirmPassword"
+                  type={showPassword ? "text" : "password"}
                   {...field}
                   fullWidth  
                   placeholder="パスワード（8文字以上）"
                   variant='outlined'
                   error = {password !== confirmPassword}
                   helperText={password !== confirmPassword ? 'パスワードが一致しません': ''}
-                  />
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton 
+                          onClick={()=> setShowPassword((prev)=> !prev)} edge="end">
+                            {showPassword ? <VisibilityRoundedIcon/> : <VisibilityOffRoundedIcon/> }
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}/>
                 )}
                 />
             </Box>
