@@ -4,9 +4,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@/app/globals.css";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/app/styles/theme";
-import { Box, CssBaseline } from "@mui/material";
+import { Box, CssBaseline, Snackbar } from "@mui/material";
 import CurrentUserFetch from "./components/CurrentUserFetch";
 import HealthCheck from "./hooks/development/healthCheck";
+import SuccessSnackbar from "./components/Snackbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <HealthCheck/>
             <Box sx={{backgroundColor:'#FAFAF8',width:'100vw'}}>
               {children}
+              <SuccessSnackbar/>
             </Box>
           </ThemeProvider>
         </AppRouterCacheProvider>

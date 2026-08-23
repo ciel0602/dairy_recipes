@@ -7,11 +7,13 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import loginValidationRules from "../util/LoginValidationRules";
 import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
+import { useSnackbarState } from "@/app/hooks/useSnackbarState";
 
 export default function LoginForm(){
   const router = useRouter();
   const [user,setUser] = useUserState();
   const [isLoading, setIsLoading] = useState(false);
+  const [,setSnackbar] = useSnackbarState();
 
   type LoginFormData = {
     email: string;
@@ -37,9 +39,17 @@ export default function LoginForm(){
           isFetched:false,
         })
         router.push('/recipes')
+        setSnackbar({
+          message:'ログインしました。',
+          severity:'success'
+        })
       })
       .catch((e:AxiosError<{error:string}>)=> {
         console.log(e.message)
+        setSnackbar({
+          message:'ログイン認証に失敗しました。',
+          severity:'error'
+        })
       })
       setIsLoading(false)
     }
