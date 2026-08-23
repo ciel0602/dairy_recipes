@@ -6,10 +6,13 @@ import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import validationRules from "../util/SignupValidationRules";
 import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
+import { useSnackbarState } from "@/app/hooks/useSnackbarState";
 
 export default function SignupForm(){
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [,setSnackbar] = useSnackbarState();
+
   type SigninFormData = {
     name:string;
     email: string;
@@ -40,9 +43,17 @@ export default function SignupForm(){
       })
       .then(()=> {
         router.push('/')
+        setSnackbar({
+          message: '認証メールを送信しました。',
+          severity: 'success'
+        })
       })
       .catch((e:AxiosError<{error:string}>) => {
         console.log(e.message)
+        setSnackbar({
+          message: 'エラーが発生しました。',
+          severity: 'error'
+        })
       })
       setIsLoading(false)
     }

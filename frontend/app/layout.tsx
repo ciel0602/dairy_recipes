@@ -36,7 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <CssBaseline/>
             <CurrentUserFetch/>
             <HealthCheck/>
-            <Box sx={{backgroundColor:'#FAFAF8',width:'100vw'}}>
+            <Box sx={{backgroundColor:'#FAFAF8',width:'100vw',minHeight:'100vh'}}>
               {children}
               <SuccessSnackbar/>
             </Box>
