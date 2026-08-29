@@ -9,7 +9,7 @@ export default function RecipesIndex(){
       <Typography component="h2">最近の調理</Typography>
       <Grid container spacing={1} sx={{width:"100%"}}>
         {recipes.map((recipe)=> (
-          <Grid item md={8} key={recipe.id}>
+          <Grid item md={12} xs={12} key={recipe.id}>
             <Card>
               <CardActionArea>
                 <Stack direction="row" sx={{justifyContent:"flex-start",alignItems:"center",px:2,py:1.5,borderRadius:"12px"}}>

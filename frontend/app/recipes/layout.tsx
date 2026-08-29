@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import Header from "../features/recipes/components/Header";
 
 export default function DashboardLayout({
@@ -7,9 +7,11 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Box>
+    <>
       <Header/>
-      {children}
-    </Box>
+      <Box sx={{px:10,py:2}}>
+        {children}
+      </Box>
+    </>
   );
 }
