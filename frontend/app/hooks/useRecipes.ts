@@ -3,6 +3,7 @@
 import useSWR from "swr";
 import type { RecipeType } from "../types/RecipeType";
 import axios, { type AxiosError } from "axios";
+import camelcaseKeys from "camelcase-keys";
 
 export default function useRecipes() {
   const fetcher = async (): Promise<RecipeType[]> => {
@@ -11,8 +12,9 @@ export default function useRecipes() {
 
     try {
       const res = await axios.get<RecipeType[]>(url);
+      const result = camelcaseKeys(res.data);
+      return result;
 
-      return res.data;
     } catch (err) {
       const error = err as AxiosError<{ error: string }>;
 

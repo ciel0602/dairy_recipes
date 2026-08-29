@@ -10,7 +10,7 @@
 #
 User.create!(name: "テストユーザー1", email: "test1@example.com", password: "password", confirmed_at: Time.current)
 
-Recipe.create!(
+recipe = Recipe.create!(
   user_id: 1, title: "カリッとジューシー！基本の鶏の唐揚げ",
   description: "外はカリッと中はジューシー！醤油・しょうが・にんにくの王道味でご飯がすすむ、鶏の唐揚げのレシピです。漬け時間や油温、二度揚げのコツまで押さえた、失敗しない作り方を紹介します。",
   current_ingredients: [
@@ -69,6 +69,13 @@ Recipe.create!(
         }
     ] }
   ],
-  current_rating: 5,
+  current_rating: 4,
   current_version_id: 1
+)
+recipe.thumbnail.attach(
+  io: File.open(
+    Rails.root.join("db/seed_images/tori-karaage.webp"),
+  ),
+  filename: "tori-karaage.webp",
+  content_type: "image/webp"
 )
