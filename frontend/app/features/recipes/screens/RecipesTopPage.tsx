@@ -1,7 +1,6 @@
 'use client'
 import { Box, Typography } from "@mui/material";
 import RecipesIndex from "./RecipesIndex";
-import Menubar from "../components/Menubar";
 
 export default function RecipesTopPage() {
 
@@ -16,7 +15,6 @@ export default function RecipesTopPage() {
       </Typography>
       <RecipesIndex/>
     </Box>
-    <Menubar/>
     </>
   )
 }
