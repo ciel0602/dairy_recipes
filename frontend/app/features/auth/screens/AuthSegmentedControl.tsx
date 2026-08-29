@@ -1,8 +1,8 @@
 'use client'
 import { Box,  Button,  Container,  Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import { useState } from 'react'
-import LoginForm from './components/LoginForm';
-import SigninForm from './components/SignupForm';
+import LoginForm from '../components/LoginForm';
+import SignupForm from '../components/SignupForm';
 
 
 export default function AuthSegmentedControl(){
@@ -100,7 +100,7 @@ export default function AuthSegmentedControl(){
           {/* サインアップフォーム */}
           {authMode === 'signin' && (
             <>              
-              <SigninForm/>
+              <SignupForm/>
               <Stack direction="row"sx={{justifyContent:"center",alignItems:"center"}}>
                 <Typography>すでにアカウントをお持ちの方は</Typography>
                 <Button onClick={()=> setAuthMode('login')}
