@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Box } from "@mui/material";
 import Header from "../features/recipes/components/Header";
 import Menubar from "../features/recipes/components/Menubar";
 

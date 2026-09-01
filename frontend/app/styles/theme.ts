@@ -1,20 +1,30 @@
 'use client'
-import { red } from '@mui/material/colors'
 import { createTheme } from '@mui/material/styles'
 
 // Create a theme instance.
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#C4622D',
+        main: '#E85D04',
+        contrastText: '#FFFFFF',
         },
+
         secondary: {
-            main: '#F2EDE6',
+        main: '#C85F32',
         },
-        error: {
-            main: red.A400,
+
+        background: {
+        default: '#FAF9F7',
+        paper: '#FFFFFF',
         },
+
+        text: {
+        primary: '#1A1715',
+        secondary: '#9A9188',
+        },
+
+        divider: '#E5DED7',
     },
-})
+});
 
 export default theme
