@@ -1,6 +1,6 @@
 'use client'
 import { Box, Typography } from "@mui/material";
-import RecipesIndex from "./RecipesIndex";
+import RecipesIndex from "../components/RecipesIndex";
 
 export default function RecipesTopPage() {
 

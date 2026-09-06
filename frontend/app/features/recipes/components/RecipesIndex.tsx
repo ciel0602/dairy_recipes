@@ -1,6 +1,6 @@
 import useRecipes from "@/app/hooks/useRecipes";
 import { Box, Stack, Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from "@mui/material";
-import RatingStar from "../components/RatingStar";
+import RatingStar from "./RatingStar";
 import { useRouter } from "next/navigation";
 
 export default function RecipesIndex(){
