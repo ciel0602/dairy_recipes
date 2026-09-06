@@ -13,6 +13,7 @@ export default function RecipesTopPage() {
         <br />
         <span style={{fontSize:36,color:"#C4622D"}}>料理日記</span>
       </Typography>
+      <Typography component="h2">最近の調理</Typography>
       <RecipesIndex/>
     </Box>
     </>

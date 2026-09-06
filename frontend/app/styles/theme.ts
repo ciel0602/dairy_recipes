@@ -15,12 +15,15 @@ const theme = createTheme({
 
         background: {
         default: '#FAF9F7',
-        paper: '#FFFFFF',
+        paper: '#FFFFFF'
         },
 
         text: {
         primary: '#1A1715',
         secondary: '#9A9188',
+        },
+        common:{
+            white:'#FFFFFF',
         },
 
         divider: '#E5DED7',
