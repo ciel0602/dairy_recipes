@@ -24,7 +24,8 @@
     "@mui/material-nextjs": "^9.1.1",
     "axios": "^1.5.0",
     "camelcase-keys": "10.0.2",
-    "swr": "^2.2.2"
+    "swr": "^2.2.2",
+    "@google/genai": "2.21.0"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.11.0",

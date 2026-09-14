@@ -1,7 +1,6 @@
 'use client'
 import { Box, Button, Divider, Grid, Stack, Typography } from "@mui/material";
-import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { RecipeType } from "@/app/types/RecipeType";
 import camelcaseKeys from "camelcase-keys";
 import axios, { AxiosError } from "axios";
@@ -10,11 +9,10 @@ import RecipeDetailsCard from "../components/RecipeDetailsCard";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import IcecreamRoundedIcon from '@mui/icons-material/IcecreamRounded';
 import TakeoutDiningRoundedIcon from '@mui/icons-material/TakeoutDiningRounded';
-import FiberManualRecordRoundedIcon from '@mui/icons-material/FiberManualRecordRounded';
+import BackPageButton from "@/app/components/BackPageButton";
 
 
 export default function RecipeDetail(){
-  const router = useRouter();
   const { id } = useParams();
   const fetcher = async () : Promise<RecipeType> => {
     const url =
@@ -44,9 +42,7 @@ export default function RecipeDetail(){
 
   return(
     <Box sx={{pb:12}}>
-      <Box>
-        <Button variant="text" startIcon={<ArrowBackRoundedIcon/>} onClick={() => router.back()}>戻る</Button>
-      </Box>
+      <BackPageButton/>
       <Box sx={{position:"relative"}}>
         <Box component="img" src={recipe.thumbnailUrl} sx={{width:"100%",aspectRatio:"16 / 6",borderRadius:"16px", objectFit:"cover"}} />
         <Box sx={{position:"absolute",left:"16px",bottom:"16px"}}>
