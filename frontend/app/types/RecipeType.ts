@@ -10,7 +10,7 @@ export type StepType = {
 };
 
 export type StepGroupType = {
-  title: string;
+  title?: string;
   steps: StepType[];
 };
 
@@ -26,4 +26,11 @@ export type RecipeType = {
   createdAt: string;
   updatedAt: string;
   thumbnailUrl:string;
+};
+
+export type RecipeInputType = {
+  title: string;
+  description: string | null;
+  currentIngredients: IngredientType[] | null;
+  currentSteps: StepGroupType[] | null;
 };

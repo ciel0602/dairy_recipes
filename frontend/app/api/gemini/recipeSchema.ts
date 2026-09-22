@@ -12,7 +12,7 @@ export const recipeSchema = {
       description: "レシピの説明",
     },
 
-    currentIngredients: {
+    ingredients: {
       type: ["array", "null"],
       items: {
         type: "object",
@@ -38,7 +38,7 @@ export const recipeSchema = {
       },
     },
 
-    currentSteps: {
+    steps: {
       type: ["array", "null"],
       items: {
         type: "object",
@@ -80,7 +80,7 @@ export const recipeSchema = {
   required: [
     "title",
     "description",
-    "currentIngredients",
-    "currentSteps",
+    "ingredients",
+    "steps",
   ],
 };

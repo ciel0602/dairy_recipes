@@ -28,4 +28,33 @@ class Api::V1::RecipesController <  Api::V1::BaseController
       created_at: recipe.created_at
     }
   end
+
+  def create
+    recipe = Recipe.new(recipe_params)
+
+    if recipe.save
+      render json: recipe, status: :created
+    else
+      render json: {
+        errors: recipe.errors.full_messages,
+        status: :unprocessable_content
+      }
+    end
+  end
+
+  def recipe_params
+  params.require(:recipe).permit(
+    :title,
+    :description,
+    ingredients: [
+      :name,
+      :amount,
+      :unit
+    ],
+    steps: [
+      :step,
+      :description
+    ]
+  )
+  end 
 end

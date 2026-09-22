@@ -15,11 +15,12 @@ export default async function parseRecipe(image:File | null){
     const data = await response.json();
 
     console.log('status:', response.status);
-    console.log('response:', data);
 
     if (!response.ok) {
       throw new Error(data.error || 'AIレシピ生成に失敗しました');
     }
+    return data;
+
   } catch (error) {
     console.error(error);
   }

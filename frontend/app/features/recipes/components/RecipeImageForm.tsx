@@ -5,14 +5,14 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import { useState } from "react";
 import { useSnackbarState } from "@/app/hooks/useSnackbarState";
 import parseRecipe from "../api/parseRecipe";
+import RecipeModal from "./RecipeModal";
 
 
 
-export default function RecipesNewForm() {
-
-  
-
+export default function RecipeImageForm() {
   const [image, setImage] = useState<File | null>();
+  const [recipe, setRecipe] = useState();
+  const [isOpen, setIsOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [,setSnackbar] = useSnackbarState();
   // ファイルをドラッグされた時に色を替えるための処理
@@ -61,12 +61,14 @@ export default function RecipesNewForm() {
     setImage(file);
   };
 
-  const handleSubmit = (event: React.SubmitEvent) => {
+  const handleSubmit = async (event: React.SubmitEvent) => {
     event.preventDefault();
     if (!image) {
     return;
   }
-    parseRecipe(image);
+    const data = await parseRecipe(image);
+    setRecipe(data);
+    setIsOpen(true)
   }
 
   return(
@@ -113,11 +115,9 @@ export default function RecipesNewForm() {
         </Stack>
       </CardContent>
     </Card>
-    <Modal open={true} >
-      <Box>
-        
-      </Box>
-    </Modal>
+    <RecipeModal isOpen={isOpen} setIsOpen={setIsOpen}
+    recipe={recipe}/>
+    <Button onClick={() => setIsOpen(true)}>テスト用モーダルアップ</Button>
     </Box>
   )
 }
