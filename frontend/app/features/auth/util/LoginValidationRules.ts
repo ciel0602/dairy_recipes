@@ -11,4 +11,4 @@ const loginValidationRules = {
     required: 'パスワードを入力してください。',
 }
 }
-export default loginValidationRules
+export default loginValidationRules;

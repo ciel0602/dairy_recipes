@@ -8,6 +8,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
+import RecipeValidationRules from "../utils/RecipeValidationRules";
 
 export default function RecipesNewForm(){
   const [,setSnackbar] = useSnackbarState();
@@ -79,6 +80,7 @@ export default function RecipesNewForm(){
       })
       .finally(()=> {
         setIsLoading(false)
+        reset()
       })
   }
 
@@ -87,10 +89,11 @@ export default function RecipesNewForm(){
     <BackButton/>
     <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{pb:14}}>
       <Box mb={4}>
-        <label htmlFor="title"style={{fontSize:14}}>料理名</label>
+        <label htmlFor="title">料理名</label>
         <Controller
           name="title"
           control={control}
+          rules={RecipeValidationRules.title}
           render={({field,fieldState}) => (
             <TextField 
             {...field}
@@ -145,6 +148,7 @@ export default function RecipesNewForm(){
               <Controller
               name={`ingredients.${index}.amount`}
               control={control}
+              rules={RecipeValidationRules.amount}
               render={({field,fieldState}) => (
                 <TextField 
                 {...field}
