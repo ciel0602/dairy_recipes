@@ -3,12 +3,13 @@ import { Box,  Button,  Container,  Stack, ToggleButton, ToggleButtonGroup, Typo
 import { useState } from 'react'
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
+import { authModeType } from '@/app/types/AuthType';
 
 
 export default function AuthSegmentedControl(){
 
   // トグルボタン機能
-  type authModeType = 'login' | 'signin'; 
+
   const [authMode, setAuthMode] = useState<authModeType>('login');
 
   return(

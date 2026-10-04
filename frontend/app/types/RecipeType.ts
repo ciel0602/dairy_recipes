@@ -9,21 +9,24 @@ export type StepType = {
   description: string | null;
 };
 
-export type StepGroupType = {
+export type RecipeIndexType = {
+  id:number;
   title: string;
-  steps: StepType[];
-};
+  rating: 1 | 2 | 3 | 4 | 5;
+  thumbnailUrl?:string;
+  createdAt:string;
+}
 
 export type RecipeType = {
   id: number;
   userId: number;
   title: string;
   description: string | null;
-  currentIngredients: IngredientType[] | null;
-  currentSteps: StepGroupType[] | null;
-  currentRating: 1 | 2 | 3 | 4 | 5;
-  currentVersionId: number | null;
+  ingredients: IngredientType[] | null;
+  steps: StepType[]
+  rating: 1 | 2 | 3 | 4 | 5;
+  versionId: number | null;
   createdAt: string;
   updatedAt: string;
-  thumbnailUrl:string;
+  thumbnailUrl?:string;
 };

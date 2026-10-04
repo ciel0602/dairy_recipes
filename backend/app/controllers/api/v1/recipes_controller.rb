@@ -1,4 +1,6 @@
 class Api::V1::RecipesController <  Api::V1::BaseController
+before_action :authenticate_user!
+
   def index
     recipes = Recipe.all
     render json:
@@ -8,7 +10,7 @@ class Api::V1::RecipesController <  Api::V1::BaseController
         title: recipe.title,
         description: recipe.description,
         thumbnail_url: recipe.thumbnail.attached? ? url_for(recipe.thumbnail) : nil,
-        current_rating: recipe.current_rating,
+        rating: recipe.rating,
         created_at: recipe.created_at
       }
     }

@@ -1,10 +1,13 @@
-import useRecipes from "@/app/hooks/useRecipes";
 import { Box, Stack, Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import RatingStar from "./RatingStar";
 import { useRouter } from "next/navigation";
+import { RecipeIndexType } from "@/app/types/RecipeType";
 
-export default function RecipesIndex(){
-  const {recipes} = useRecipes();
+type RecipesIndexProps = {
+  recipes: RecipeIndexType[]
+}
+
+export default function RecipesIndex({recipes}:RecipesIndexProps){
   const router = useRouter();
   return(
     <Box>
@@ -19,7 +22,7 @@ export default function RecipesIndex(){
                     <Typography component="h3"sx={{fontSize:14,fontWeight:500}}>{recipe.title}</Typography>
                     <Stack direction="row" sx={{justifyContent:"flex-start",alignItems:"center"}}>
                       <Typography component="small"sx={{mr:1,color:"#9A8F84",fontSize:12,lineHeight:1.5}}>{recipe.createdAt.split("T")[0]}</Typography>
-                      <RatingStar rating={recipe.currentRating}/>
+                      <RatingStar rating={recipe.rating}/>
                     </Stack>
                   </CardContent>
                 </Stack>

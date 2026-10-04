@@ -6,11 +6,10 @@ import { RecipeType } from "@/app/types/RecipeType";
 import camelcaseKeys from "camelcase-keys";
 import axios, { AxiosError } from "axios";
 import useSWR from 'swr'
-import RecipeDetailsCard from "../components/RecipeDetailsCard";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import IcecreamRoundedIcon from '@mui/icons-material/IcecreamRounded';
 import TakeoutDiningRoundedIcon from '@mui/icons-material/TakeoutDiningRounded';
-import FiberManualRecordRoundedIcon from '@mui/icons-material/FiberManualRecordRounded';
+import RecipeInfo from "../components/RecipeInfo";
 
 
 export default function RecipeDetail(){
@@ -58,13 +57,13 @@ export default function RecipeDetail(){
       </Box>
       <Grid container spacing={2}>
         <Grid item xs={12} md={4}>
-          <RecipeDetailsCard/>
+          <RecipeInfo/>
         </Grid>
         <Grid item xs={12} md={4}>
-          <RecipeDetailsCard/>
+          <RecipeInfo/>
         </Grid>
         <Grid item xs={12} md={4}>
-          <RecipeDetailsCard/>
+          <RecipeInfo/>
         </Grid>
       </Grid>
       <Button fullWidth startIcon={<CalendarMonthIcon/>} sx={{backgroundColor:'#F2EDE6'}}>

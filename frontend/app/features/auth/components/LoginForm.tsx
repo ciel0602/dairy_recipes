@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useSnackbarState } from "@/app/hooks/useSnackbarState";
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
+import { LoginFormType } from "@/app/types/AuthType";
 
 export default function LoginForm(){
   const router = useRouter();
@@ -18,16 +19,12 @@ export default function LoginForm(){
   const [showPassword, setShowPassword] = useState(false);
   const [,setSnackbar] = useSnackbarState();
 
-  type LoginFormData = {
-    email: string;
-    password: string;
-  }
-  const { handleSubmit, control } = useForm<LoginFormData>({
+  const { handleSubmit, control } = useForm<LoginFormType>({
       defaultValues: {email: '', password: '' }
     })
 
-  const onSubmit:SubmitHandler<LoginFormData> = (data) => {
-    const LogIn = async(data:LoginFormData) =>{
+  const onSubmit:SubmitHandler<LoginFormType> = (data) => {
+    const LogIn = async(data:LoginFormType) =>{
       setIsLoading(true)
       const url =  process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/auth/sign_in'
       const headers = {'Content-Type': 'application/json'}
