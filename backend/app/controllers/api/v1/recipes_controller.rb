@@ -2,7 +2,7 @@ class Api::V1::RecipesController <  Api::V1::BaseController
 before_action :authenticate_user!
 
   def index
-    recipes = Recipe.all
+    recipes = current_user.recipes.all
     render json:
       recipes.map { |recipe|
       {
@@ -29,5 +29,33 @@ before_action :authenticate_user!
       version_id: recipe.version_id,
       created_at: recipe.created_at
     }
+  end
+
+  def create
+    recipe = current_user.recipes.build(recipe_params)
+
+    if recipe.save
+      render json: {
+        message: "レシピを登録しました。",
+        recipe: recipe
+      },
+      status: :created
+    else
+      render json {
+        message :"レシピ登録に失敗しました。",
+        errors: recipe.errors.full_messages,
+        status: :unprocessable_content
+      }
+    end
+  end
+
+  private
+  def recipe_params
+    params.require(:recipe).permit(
+      :title,
+      :description,
+      ingredients: [ :name, :amount, :unit ],
+      steps: [ :step, :description ]
+    )
   end
 end

@@ -1,10 +1,16 @@
 'use client'
+import { useSnackbarState } from "@/app/hooks/useSnackbarState";
 import { RecipeInputType } from "@/app/types/RecipeType";
 import { LoadingButton } from "@mui/lab";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 
 export default function RecipesNewForm(){
+  const [,setSnackbar] = useSnackbarState();
+  const [isLoading, setIsLoading] = useState(false);
+
   const {handleSubmit, control} = useForm<RecipeInputType>({
     defaultValues: {
       title:"",
@@ -27,8 +33,51 @@ export default function RecipesNewForm(){
   const { fields:ingredientsFields, append:appendIngredient, remove:removeIngredient } = useFieldArray({ control, name: "ingredients"});
   const { fields:stepFields, append:appendStep, remove:removeStep } = useFieldArray({ control, name: "steps"});
 
-  const onSubmit = () => {
-    console.log("送信")
+  const onSubmit = async(data:RecipeInputType) => {
+    setIsLoading(true);
+    const formattedSteps = data.steps?.map((step,index) => (
+      {
+        step: index + 1,
+        description:step.description
+      }
+    ));
+    const recipeData = {
+      ...data,
+      steps:formattedSteps
+    }
+    const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/recipes'
+    const headers = {
+      'Content-Type':'application/json',
+      'access-token':localStorage.getItem('access-token'),
+      'client':localStorage.getItem('client'),
+      'uid':localStorage.getItem('uid'),
+    }
+    await axios({method:'POST',url:url,data:recipeData,headers:headers})
+      .then((response:AxiosResponse) => {
+        //リクエストごとにトークン更新
+        const accessToken  = response.headers["access-token"]
+        const client  = response.headers["client"]
+        const uid  = response.headers["uid"]
+        if (accessToken && client && uid) {
+          localStorage.setItem("access-token", accessToken);
+          localStorage.setItem("client", client);
+          localStorage.setItem("uid", uid);
+        }
+        setSnackbar({
+          message:'レシピを登録しました。',
+          severity:'success'
+        })
+      })
+      .catch((e:AxiosError<{error:string}>)=> {
+        console.log(e.message)
+        setSnackbar({
+          message:'ログイン認証に失敗しました。',
+          severity:'error'
+        })
+      })
+      .finally(()=> {
+        setIsLoading(false)
+      })
   }
 
   return(
@@ -79,7 +128,6 @@ export default function RecipesNewForm(){
               render={({field,fieldState}) => (
                 <TextField 
                 {...field}
-                id="ingredientsName"
                 type="text"
                 error={fieldState.invalid}
                 helperText={fieldState.error?.message}
@@ -95,7 +143,6 @@ export default function RecipesNewForm(){
               render={({field,fieldState}) => (
                 <TextField 
                 {...field}
-                id="ingredientsAmount"
                 type="number"
                 error={fieldState.invalid}
                 helperText={fieldState.error?.message}
@@ -112,7 +159,6 @@ export default function RecipesNewForm(){
               render={({field,fieldState}) => (
                 <TextField 
                 {...field}
-                id="ingredientsUnit"
                 type="text"
                 error={fieldState.invalid}
                 helperText={fieldState.error?.message}
@@ -141,7 +187,7 @@ export default function RecipesNewForm(){
 </Box>
       </Box>
       <Box mb={4}>
-        <label htmlFor="steps">手順</label>
+        <Typography>手順</Typography>
         {stepFields.map((field,index) => (
           <Stack key={index} direction="row"mb={2}>
             <Typography>{index + 1}.</Typography>
@@ -151,12 +197,12 @@ export default function RecipesNewForm(){
           render={({field,fieldState}) => (
             <TextField 
             {...field}
-            id="steps"
             type="text"
             error={fieldState.invalid}
             helperText={fieldState.error?.message}
             fullWidth  
             placeholder=""
+            label="手順"
             variant='outlined'/>
           )}
           />
@@ -170,7 +216,7 @@ export default function RecipesNewForm(){
         </Button>
       </Box>
       <Box>
-        <LoadingButton variant="contained" type="submit">レシピを追加</LoadingButton>
+        <LoadingButton variant="contained" loading={isLoading} type="submit" sx={{mb:5}}>レシピを追加</LoadingButton>
       </Box>
     </Box> 
   )
