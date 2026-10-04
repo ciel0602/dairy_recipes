@@ -30,3 +30,9 @@ export type RecipeType = {
   updatedAt: string;
   thumbnailUrl?:string;
 };
+export type RecipeInputType = {
+  title: string;
+  description: string | null;
+  ingredients: IngredientType[] | null;
+  steps:StepType[] | null;
+};
