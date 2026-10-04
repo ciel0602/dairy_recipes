@@ -12,7 +12,7 @@ export default function RecipesPage(){
   if(isLoading) return <div>Loading...</div>
   if (!data) return <div>データがありません。</div>
   //レスポンスデータがnullの場合はから配列を返す
-  const recipes = camelcaseKeys(data.recipes ?? [])
+  const recipes = camelcaseKeys(data ?? [])
 
   return (
     <Box>

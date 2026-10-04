@@ -1,46 +1,19 @@
 'use client'
 import { Box, Button, Divider, Grid, Stack, Typography } from "@mui/material";
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-import { useParams, useRouter } from "next/navigation";
-import { RecipeType } from "@/app/types/RecipeType";
-import camelcaseKeys from "camelcase-keys";
-import axios, { AxiosError } from "axios";
-import useSWR from 'swr'
+import { useRouter } from "next/navigation";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import IcecreamRoundedIcon from '@mui/icons-material/IcecreamRounded';
 import TakeoutDiningRoundedIcon from '@mui/icons-material/TakeoutDiningRounded';
 import RecipeInfo from "../components/RecipeInfo";
+import { RecipeType } from "@/app/types/RecipeType";
 
+type RecipeProps = {
+  recipe: RecipeType
+}
 
-export default function RecipeDetail(){
+export default function RecipeDetail({recipe}:RecipeProps){
   const router = useRouter();
-  const { id } = useParams();
-  const fetcher = async () : Promise<RecipeType> => {
-    const url =
-      process.env.NEXT_PUBLIC_API_BASE_URL + `/api/v1/recipes/${id}`; 
-      try{
-        const res = await axios.get<RecipeType>(url);
-        const result = camelcaseKeys(res.data,{
-          deep: true,
-        });
-        return result;
-
-      } catch (err) {
-        const error = err as AxiosError<{ error: string }>;
-  
-        console.log(error.message);
-  
-        throw error;
-      }
-  }
-  const { data: recipe, error, isLoading } = useSWR<RecipeType>(id ? `/api/v1/recipes/${id}` : null, fetcher);
-
-  if (isLoading) { return <div>Loading...</div>; } 
-  
-  if (error) { return <div>レシピの取得に失敗しました。</div>; } 
-  
-  if (!recipe) { return <div>レシピが見つかりません。</div>; }
-
   return(
     <Box sx={{pb:12}}>
       <Box>
@@ -77,8 +50,8 @@ export default function RecipeDetail(){
           </Stack>
           <Box sx={{backgroundColor:"background.paper",px:3,py:2,borderRadius:"10px"}}>
             <ul style={{ listStyleType: 'disc',paddingLeft:"8px", color:"#E85D04" }}>
-              {recipe.currentIngredients?.map((ingredient)=> (
-                <li key={ingredient.name}>
+              {recipe.ingredients?.map((ingredient,index)=> (
+                <li key={index}>
                   <Stack direction="row"sx={{justifyContent:"space-between"}}>
                       <Typography sx={{color:"text.primary"}}>{ingredient.name}</Typography>
                       <Typography sx={{color:"text.primary"}}>{ingredient.amount}{ingredient.unit}</Typography> 
@@ -95,22 +68,19 @@ export default function RecipeDetail(){
           </Stack>
           <Box sx={{backgroundColor:"background.paper",px:3,py:2,borderRadius:"10px"}}>
             <ol>
-              {recipe.currentSteps?.map((stepGroup) => (
-                <li key={stepGroup.title}>
-                  <Typography sx={{fontSize:16,fontWeight:600, mb:0.5}}>{stepGroup.title}</Typography>
+              {recipe.steps?.map((step) => (
+                <Box key={step.step}>
+                  <Stack direction="row" sx={{mb:1}}>
+                    <Typography sx={{color:"primary.main", fontWeight:600}}>{step.step}.</Typography>
+                    <Typography>{step.description}</Typography>
+                  </Stack>
                   <Divider sx={{mb:1}}/>
-                  {stepGroup.steps.map((step)=> (
-                    <Stack key={step.step} direction="row" sx={{mb:1}}>
-                      <Typography sx={{color:"primary.main", fontWeight:600}}>{step.step}.</Typography>
-                      <Typography>{step.description}</Typography>
-                    </Stack>
-                  ))}
-                </li>
+                </Box>
               ))}
             </ol>
           </Box>
         </Grid>
-      </Grid>
+        </Grid>
     </Box>
   )
 }
