@@ -1,24 +1,20 @@
 'use client'
 import { Box, Button, Divider, Grid, Stack, Typography } from "@mui/material";
-import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-import { useRouter } from "next/navigation";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import IcecreamRoundedIcon from '@mui/icons-material/IcecreamRounded';
 import TakeoutDiningRoundedIcon from '@mui/icons-material/TakeoutDiningRounded';
 import RecipeInfo from "../components/RecipeInfo";
 import { RecipeType } from "@/app/types/RecipeType";
+import BackButton from "@/app/components/BackButton";
 
 type RecipeProps = {
   recipe: RecipeType
 }
 
 export default function RecipeDetail({recipe}:RecipeProps){
-  const router = useRouter();
   return(
     <Box sx={{pb:12}}>
-      <Box>
-        <Button variant="text" startIcon={<ArrowBackRoundedIcon/>} onClick={() => router.back()}>戻る</Button>
-      </Box>
+      <BackButton/>
       <Box sx={{position:"relative"}}>
         <Box component="img" src={recipe.thumbnailUrl} sx={{width:"100%",aspectRatio:"16 / 6",borderRadius:"16px", objectFit:"cover"}} />
         <Box sx={{position:"absolute",left:"16px",bottom:"16px"}}>

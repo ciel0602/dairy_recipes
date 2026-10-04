@@ -6,7 +6,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/app/styles/theme";
 import { Box, CssBaseline } from "@mui/material";
 import CurrentUserFetch from "./components/CurrentUserFetch";
-import HealthCheck from "./hooks/development/healthCheck";
 import SuccessSnackbar from "./components/Snackbar";
 
 const geistSans = Geist({
@@ -35,7 +34,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <ThemeProvider theme={theme}>
             <CssBaseline/>
             <CurrentUserFetch/>
-            <HealthCheck/>
             <Box sx={{backgroundColor:'#FAFAF8',width:'100vw',minHeight:'100vh'}}>
               {children}
               <SuccessSnackbar/>
