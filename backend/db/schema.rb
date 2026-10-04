@@ -41,14 +41,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_064621) do
 
   create_table "recipes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.json "current_ingredients"
-    t.integer "current_rating", default: 0, null: false
-    t.json "current_steps"
-    t.integer "current_version_id"
     t.text "description"
+    t.json "ingredients"
+    t.integer "rating"
+    t.json "steps"
     t.string "title", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.integer "version_id"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 

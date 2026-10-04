@@ -1,7 +1,7 @@
 import SoupKitchenRoundedIcon from '@mui/icons-material/SoupKitchenRounded';
 import { Box, Stack, Typography } from '@mui/material';
 
-export default function RecipeDetailsCard(){
+export default function RecipeInfo(){
   return(
     <>
     <Stack direction="row" sx={{backgroundColor:"background.paper",justifyContent:"flex-start",alignItems:"center",pl:3,py:2,borderRadius:"10px"}}>

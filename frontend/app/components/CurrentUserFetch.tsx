@@ -7,17 +7,16 @@ export default function CurrentUserFetch(){
   const [user, setUser] = useUserState();
 
   useEffect(()=> {
-    // ユーザーがフェッチ済みなら何もしない
     if(user.isFetched){
-      return
+      return 
     }
+
 
     if(localStorage.getItem('access-token')){
       const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/current/user';
       axios
         .get(url,{
           headers: {
-            'Content-Type':'application/json',
             'access-token':localStorage.getItem('access-token'),
             'client':localStorage.getItem('client'),
             'uid':localStorage.getItem('uid'),
@@ -30,6 +29,15 @@ export default function CurrentUserFetch(){
             isSignedIn:true,
             isFetched:true,
           })
+          //トークンがdevise側で変更されることへの措置
+          const accessToken  = res.headers["access-token"]
+          const client  = res.headers["client"]
+          const uid  = res.headers["uid"]
+          if (accessToken && client && uid) {
+            localStorage.setItem("access-token", accessToken);
+            localStorage.setItem("client", client);
+            localStorage.setItem("uid", uid);
+          }
         })
         .catch((err: AxiosError<{error:string}>) => {
           console.log(err.message)
