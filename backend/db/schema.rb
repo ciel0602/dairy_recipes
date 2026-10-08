@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_29_064621) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_08_132126) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -52,6 +52,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_064621) do
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
+  create_table "tag_relationships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "recipe_id", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recipe_id"], name: "index_tag_relationships_on_recipe_id"
+    t.index ["tag_id"], name: "index_tag_relationships_on_tag_id"
+  end
+
+  create_table "tags", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_tags_on_user_id"
+  end
+
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.boolean "allow_password_change", default: false
     t.datetime "confirmation_sent_at"
@@ -80,4 +97,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_064621) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "recipes", "users"
+  add_foreign_key "tag_relationships", "recipes"
+  add_foreign_key "tag_relationships", "tags"
+  add_foreign_key "tags", "users"
 end

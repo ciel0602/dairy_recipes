@@ -57,6 +57,7 @@ before_action :authenticate_user!
       :rating,
       ingredients: [ :name, :amount, :unit ],
       steps: [ :step, :description ],
+      tag_ids:[],
     )
   end
 end

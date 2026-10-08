@@ -10,6 +10,7 @@
 #
 User.create!(name: "テストユーザー1", email: "test1@example.com", password: "password", confirmed_at: Time.current)
 
+
 recipe = Recipe.create!(
   user_id: 1,
   title: "カリッとジューシー！基本の鶏の唐揚げ",
@@ -63,4 +64,12 @@ recipe.thumbnail.attach(
   ),
   filename: "tori-karaage.webp",
   content_type: "image/webp"
+)
+
+tag = Tag.create!(name:"お気に入り",user_id:1 ,created_at:Time.current)
+
+
+TagRelationship.create!(
+  recipe: recipe,
+  tag: tag,
 )
