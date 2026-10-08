@@ -17,11 +17,17 @@ export type RecipeIndexType = {
   createdAt:string;
 }
 
+export type TagType = {
+  id:number;
+  name:string;
+}
+
 export type RecipeType = {
   id: number;
   userId: number;
   title: string;
   description: string | null;
+  tags: TagType[];
   ingredients: IngredientType[] | null;
   steps: StepType[]
   rating: 1 | 2 | 3 | 4 | 5;

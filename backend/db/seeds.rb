@@ -66,7 +66,7 @@ recipe.thumbnail.attach(
   content_type: "image/webp"
 )
 
-tag = Tag.create!(name:"お気に入り",user_id:1 ,created_at:Time.current)
+tag = Tag.create!(name: "お気に入り", user_id: 1, created_at: Time.current)
 
 
 TagRelationship.create!(

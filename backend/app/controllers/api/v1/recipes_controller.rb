@@ -18,10 +18,17 @@ before_action :authenticate_user!
 
   def show
     recipe = Recipe.find(params[:id])
+    tags = recipe.tags.map do |tag|
+      {
+        id: tag.id,
+        name: tag.name
+      }
+    end
     render json: {
       id: recipe.id,
       title: recipe.title,
       description: recipe.description,
+      tags: tags,
       ingredients: recipe.ingredients,
       steps: recipe.steps,
       thumbnail_url: recipe.thumbnail.attached? ? url_for(recipe.thumbnail) : nil,
@@ -57,7 +64,7 @@ before_action :authenticate_user!
       :rating,
       ingredients: [ :name, :amount, :unit ],
       steps: [ :step, :description ],
-      tag_ids:[],
+      tag_ids: [],
     )
   end
 end

@@ -20,7 +20,9 @@ export default function RecipeDetail({recipe}:RecipeProps){
         <Box sx={{position:"absolute",left:"16px",bottom:"16px"}}>
           <Typography component="h2" sx={{fontSize:30,fontWeight:600,color:'common.white'}}>{recipe.title}</Typography>
           <Box sx={{width: "fit-content",px:1,py:0.5,borderRadius:"20px",background:"rgba(255,255,255,0.5)",textAlign:"center"}}>
-            <Typography sx={{display:"block",color:'text.primary', fontSize:12}}>和食</Typography>
+            {recipe.tags.map((tag)=> (
+              <Typography key={tag.id} sx={{display:"block",color:'text.primary', fontSize:12}}>{tag.name}</Typography>
+            ))}
           </Box>
         </Box>
       </Box>

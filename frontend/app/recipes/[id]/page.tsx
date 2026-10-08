@@ -13,7 +13,6 @@ export default function RecipePage(){
   if(isLoading) return <div>Loading...</div>
   if (!data) return <div>データがありません。</div>
   const recipe = camelcaseKeys(data ?? [])
-  console.log(recipe)
 
   return (
     <>
