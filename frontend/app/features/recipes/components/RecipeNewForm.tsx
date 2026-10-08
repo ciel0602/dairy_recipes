@@ -3,7 +3,7 @@ import BackButton from "@/app/components/BackButton";
 import { useSnackbarState } from "@/app/hooks/useSnackbarState";
 import { RecipeInputType } from "@/app/types/RecipeType";
 import { LoadingButton } from "@mui/lab";
-import { Box, Button, IconButton, Stack, TextField, Tooltip, Typography } from "@mui/material";
+import { Box, Button, IconButton, Rating, Stack, TextField, Tooltip, Typography } from "@mui/material";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
@@ -18,6 +18,7 @@ export default function RecipesNewForm(){
     defaultValues: {
       title:"",
       description:"",
+      rating:0,
       ingredients:[
         {
           name:"",
@@ -125,6 +126,23 @@ export default function RecipesNewForm(){
             variant='outlined'/>
           )}
           />
+      </Box>
+      {/* ここから星評価のフォーム */}
+      <Box>
+        <Typography>評価</Typography>
+        <Controller 
+        name="rating"
+        control={control}
+        defaultValue={0}
+        render={({field}) => (
+          <Rating 
+            {...field}
+            value={field.value}
+            // 未選択は0となる処理
+            onChange={(_, value) => {
+              field.onChange(value ?? 0)
+            }}/>
+        )} />
       </Box>
       <Box mb={4}>
         <Typography>材料</Typography>

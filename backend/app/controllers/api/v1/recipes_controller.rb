@@ -54,8 +54,9 @@ before_action :authenticate_user!
     params.require(:recipe).permit(
       :title,
       :description,
+      :rating,
       ingredients: [ :name, :amount, :unit ],
-      steps: [ :step, :description ]
+      steps: [ :step, :description ],
     )
   end
 end

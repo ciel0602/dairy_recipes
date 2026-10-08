@@ -33,6 +33,7 @@ export type RecipeType = {
 export type RecipeInputType = {
   title: string;
   description: string | null;
+  rating:0 | 1 | 2 | 3 | 4 | 5;
   ingredients: IngredientType[] | null;
   steps:StepType[] | null;
 };
