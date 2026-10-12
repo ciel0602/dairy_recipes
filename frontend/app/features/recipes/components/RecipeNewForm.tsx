@@ -1,7 +1,7 @@
 'use client'
 import BackButton from "@/app/components/BackButton";
 import { useSnackbarState } from "@/app/hooks/useSnackbarState";
-import { RecipeInputType } from "@/app/types/RecipeType";
+import { RecipeInputType, TagType } from "@/app/types/RecipeType";
 import { LoadingButton } from "@mui/lab";
 import { Box, Button, IconButton, Rating, Stack, TextField, Tooltip, Typography } from "@mui/material";
 import axios, { AxiosError, AxiosResponse } from "axios";
@@ -9,8 +9,12 @@ import { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 import RecipeValidationRules from "../utils/RecipeValidationRules";
+import TagSelector from "./TagSelector";
 
-export default function RecipesNewForm(){
+type tagsProps= {
+  tags:TagType[]
+}
+export default function RecipesNewForm({tags}:tagsProps){
   const [,setSnackbar] = useSnackbarState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -18,6 +22,7 @@ export default function RecipesNewForm(){
     defaultValues: {
       title:"",
       description:"",
+      tag_ids:[],
       rating:0,
       ingredients:[
         {
@@ -56,7 +61,7 @@ export default function RecipesNewForm(){
       'client':localStorage.getItem('client'),
       'uid':localStorage.getItem('uid'),
     }
-    await axios({method:'POST',url:url,data:recipeData,headers:headers})
+    await axios({method:'POST',url:url,data:{recipe:recipeData},headers:headers})
       .then((response:AxiosResponse) => {
         //リクエストごとにトークン更新
         const accessToken  = response.headers["access-token"]
@@ -82,6 +87,7 @@ export default function RecipesNewForm(){
       .finally(()=> {
         setIsLoading(false)
         reset()
+        console.log(recipeData)
       })
   }
 
@@ -127,6 +133,20 @@ export default function RecipesNewForm(){
           )}
           />
       </Box>
+      {/* ここからタグフォーム */}
+      <Box>
+        <Typography>タグ</Typography>
+        <Controller
+          name="tag_ids"
+          control={control}
+          render={({field}) => (
+            <TagSelector 
+              tags={tags}
+              selectedTagIds={field.value}
+              onChange={field.onChange}
+              />
+        )}/>
+      </Box>
       {/* ここから星評価のフォーム */}
       <Box>
         <Typography>評価</Typography>
@@ -138,6 +158,7 @@ export default function RecipesNewForm(){
           <Rating 
             {...field}
             value={field.value}
+            sx={{color:"primary.main"}}
             // 未選択は0となる処理
             onChange={(_, value) => {
               field.onChange(value ?? 0)

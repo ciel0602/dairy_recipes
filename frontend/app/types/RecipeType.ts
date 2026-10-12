@@ -36,9 +36,11 @@ export type RecipeType = {
   updatedAt: string;
   thumbnailUrl?:string;
 };
+
 export type RecipeInputType = {
   title: string;
   description: string | null;
+  tag_ids:number[];
   rating:0 | 1 | 2 | 3 | 4 | 5;
   ingredients: IngredientType[] | null;
   steps:StepType[] | null;

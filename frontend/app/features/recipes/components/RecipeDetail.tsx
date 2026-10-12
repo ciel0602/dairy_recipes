@@ -19,9 +19,9 @@ export default function RecipeDetail({recipe}:RecipeProps){
         <Box component="img" src={recipe.thumbnailUrl} sx={{width:"100%",aspectRatio:"16 / 6",borderRadius:"16px", objectFit:"cover"}} />
         <Box sx={{position:"absolute",left:"16px",bottom:"16px"}}>
           <Typography component="h2" sx={{fontSize:30,fontWeight:600,color:'common.white'}}>{recipe.title}</Typography>
-          <Box sx={{width: "fit-content",px:1,py:0.5,borderRadius:"20px",background:"rgba(255,255,255,0.5)",textAlign:"center"}}>
+          <Box sx={{width: "fit-content",px:1,py:0.5,borderRadius:"20px",background:"rgba(255,255,255,0.2)",textAlign:"center"}}>
             {recipe.tags.map((tag)=> (
-              <Typography key={tag.id} sx={{display:"block",color:'text.primary', fontSize:12}}>{tag.name}</Typography>
+              <Typography key={tag.id} sx={{display:"block",color:'common.white', fontSize:12,opacity:1}}>{tag.name}</Typography>
             ))}
           </Box>
         </Box>

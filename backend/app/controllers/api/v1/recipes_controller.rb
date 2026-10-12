@@ -42,6 +42,13 @@ before_action :authenticate_user!
     recipe = current_user.recipes.build(recipe_params)
 
     if recipe.save
+      Rails.logger.debug("params: #{params.to_unsafe_h.inspect}")
+      Rails.logger.debug("recipe params: #{params[:recipe].inspect}")
+      Rails.logger.debug("recipe_params: #{recipe_params.to_h.inspect}")
+      recipe.tags = Tag.where(
+        id: recipe_params[:tag_ids],
+        user_id: current_user.id
+      )
       render json: {
         message: "レシピを登録しました。",
         recipe: recipe
@@ -62,9 +69,9 @@ before_action :authenticate_user!
       :title,
       :description,
       :rating,
+      tag_ids: [],
       ingredients: [ :name, :amount, :unit ],
       steps: [ :step, :description ],
-      tag_ids: [],
     )
   end
 end
