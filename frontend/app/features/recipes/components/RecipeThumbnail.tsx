@@ -5,6 +5,7 @@ import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { useState } from "react";
+import DeleteConfirmModal from "@/app/features/recipes/components/DeleteConfirmModal";
 
 type RecipeProps = {
   recipe: RecipeType
@@ -12,6 +13,7 @@ type RecipeProps = {
 
 export default function RecipeThumbnail({recipe}:RecipeProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [modalOpen, setModalOpen] = useState(false);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -19,6 +21,7 @@ export default function RecipeThumbnail({recipe}:RecipeProps) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleModalOpen = () => setModalOpen(true)
   return(
     <Box sx={{position:"relative",width:"100%",aspectRatio:"16 / 6",overflow:"hidden",backgroundColor:"#bcbcbc",borderRadius:"16px"}}>
       {/* サムネイルの有無で画像切り替え */}
@@ -58,7 +61,7 @@ export default function RecipeThumbnail({recipe}:RecipeProps) {
                   </ListItemText>
                   </MenuItem>
                   
-                  <MenuItem>
+                  <MenuItem onClick={handleModalOpen}>
                   <ListItemIcon>
                     <DeleteOutlinedIcon fontSize="small" color="error"/>
                   </ListItemIcon>
@@ -67,6 +70,9 @@ export default function RecipeThumbnail({recipe}:RecipeProps) {
             </Menu>
           </Stack>
         </Box>
+        <DeleteConfirmModal
+          modalOpen={modalOpen} 
+          setModalOpen={setModalOpen}/>
         <Box sx={{position:"absolute",left:"16px",bottom:"16px"}}>
           <Typography component="h2" sx={{fontSize:30,fontWeight:600,color:'common.white'}}>{recipe.title}</Typography>
           <Box sx={{width: "fit-content",px:1,py:0.5,borderRadius:"20px",background:"rgba(255,255,255,0.2)",textAlign:"center"}}>
