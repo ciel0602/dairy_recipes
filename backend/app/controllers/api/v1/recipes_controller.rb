@@ -29,6 +29,7 @@ before_action :authenticate_user!
       title: recipe.title,
       description: recipe.description,
       tags: tags,
+      amount_ratio: recipe.amount_ratio,
       ingredients: recipe.ingredients,
       steps: recipe.steps,
       thumbnail_url: recipe.thumbnail.attached? ? url_for(recipe.thumbnail) : nil,
@@ -42,9 +43,9 @@ before_action :authenticate_user!
     recipe = current_user.recipes.build(recipe_params)
 
     if recipe.save
-      Rails.logger.debug("params: #{params.to_unsafe_h.inspect}")
-      Rails.logger.debug("recipe params: #{params[:recipe].inspect}")
-      Rails.logger.debug("recipe_params: #{recipe_params.to_h.inspect}")
+      # Rails.logger.debug("params: #{params.to_unsafe_h.inspect}")
+      # Rails.logger.debug("recipe params: #{params[:recipe].inspect}")
+      # Rails.logger.debug("recipe_params: #{recipe_params.to_h.inspect}")
       recipe.tags = Tag.where(
         id: recipe_params[:tag_ids],
         user_id: current_user.id
@@ -69,6 +70,7 @@ before_action :authenticate_user!
       :title,
       :description,
       :rating,
+      :amount_ratio,
       tag_ids: [],
       ingredients: [ :name, :amount, :unit ],
       steps: [ :step, :description ],

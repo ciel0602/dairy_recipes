@@ -28,6 +28,7 @@ export type RecipeType = {
   title: string;
   description: string | null;
   tags: TagType[];
+  amountRatio:number;
   ingredients: IngredientType[] | null;
   steps: StepType[]
   rating: 1 | 2 | 3 | 4 | 5;
@@ -42,6 +43,7 @@ export type RecipeInputType = {
   description: string | null;
   tag_ids:number[];
   rating:0 | 1 | 2 | 3 | 4 | 5;
+  amountRatio:number;
   ingredients: IngredientType[] | null;
   steps:StepType[] | null;
 };

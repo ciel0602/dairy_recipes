@@ -10,6 +10,7 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 import RecipeValidationRules from "../utils/RecipeValidationRules";
 import TagSelector from "./TagSelector";
+import IngredientRatioForm from "./IngredientRatioForm";
 
 type tagsProps= {
   tags:TagType[]
@@ -17,6 +18,7 @@ type tagsProps= {
 export default function RecipesNewForm({tags}:tagsProps){
   const [,setSnackbar] = useSnackbarState();
   const [isLoading, setIsLoading] = useState(false);
+  const [amountRatio, setAmountRatio] = useState(2);
 
   const {handleSubmit, control,reset} = useForm<RecipeInputType>({
     defaultValues: {
@@ -24,6 +26,7 @@ export default function RecipesNewForm({tags}:tagsProps){
       description:"",
       tag_ids:[],
       rating:0,
+      amountRatio:1,
       ingredients:[
         {
           name:"",
@@ -52,7 +55,8 @@ export default function RecipesNewForm({tags}:tagsProps){
     ));
     const recipeData = {
       ...data,
-      steps:formattedSteps
+      steps:formattedSteps,
+      amount_ratio:amountRatio
     }
     const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/recipes'
     const headers = {
@@ -165,8 +169,12 @@ export default function RecipesNewForm({tags}:tagsProps){
             }}/>
         )} />
       </Box>
+      {/* ここから材料フォーム */}
       <Box mb={4}>
-        <Typography>材料</Typography>
+        <Stack direction="row" sx={{justifyContent:"space-between",alignItems:"center"}}>
+          <Typography>材料</Typography>
+          <IngredientRatioForm amountRatio={amountRatio} setAmountRatio={setAmountRatio}/>
+        </Stack>
         {ingredientsFields.map((field,index) => (
           <Stack key={index} direction="row" spacing={2} mb={2} sx={{justifyContent:"flex-start",alignItems:"center"}}>
             <Controller

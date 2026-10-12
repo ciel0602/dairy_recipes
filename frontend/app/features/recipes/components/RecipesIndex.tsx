@@ -2,6 +2,7 @@ import { Box, Stack, Card, CardActionArea, CardContent, CardMedia, Grid, Typogra
 import RatingStar from "./RatingStar";
 import { useRouter } from "next/navigation";
 import { RecipeIndexType } from "@/app/types/RecipeType";
+import Image from "next/image";
 
 type RecipesIndexProps = {
   recipes: RecipeIndexType[]
@@ -17,7 +18,10 @@ export default function RecipesIndex({recipes}:RecipesIndexProps){
             <Card>
               <CardActionArea onClick={() =>  router.push(`/recipes/${recipe.id}`)}>
                 <Stack direction="row" sx={{justifyContent:"flex-start",alignItems:"center",px:2,py:1.5,borderRadius:"12px"}}>
-                  <CardMedia component="img" image={recipe.thumbnailUrl} sx={{width:48,height:48,borderRadius:"8px"}} />
+                  {/* サムネイルURLの有無によって画像切り替え */}
+                  <Box sx={{width:48,height:48,borderRadius:"8px",overflow:"hidden",position: "relative",}}>
+                    {recipe.thumbnailUrl ? <CardMedia component="img" image={recipe.thumbnailUrl} sx={{minWidth:"100%",minHeight:"100%",objectPosition:"center",objectFit:"cover"}} /> : <Image src="/images/noImage.png" alt="画像がありません" fill sizes="48px" style={{objectFit:"contain"}} />}
+                  </Box>
                   <CardContent sx={{p:0, '&:last-child': { pb: 0 },ml:1,mt:0.5 }}>
                     <Typography component="h3"sx={{fontSize:14,fontWeight:500}}>{recipe.title}</Typography>
                     <Stack direction="row" sx={{justifyContent:"flex-start",alignItems:"center"}}>
