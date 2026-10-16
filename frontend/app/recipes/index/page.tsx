@@ -7,19 +7,40 @@ import useSWR from 'swr';
 import fetcher from "@/app/features/recipes/utils/fetcher";
 import RecipesIndex from "@/app/features/recipes/components/RecipesIndex";
 import camelcaseKeys from "camelcase-keys";
+import TagSelector from "@/app/features/recipes/components/TagSelector";
+import { TagType } from "@/app/types/RecipeType";
 
 export default function RecipesIndexPage() {
   const searchParams = new URLSearchParams();
   const [search,setSearch] = useState("");
+  const [selectedTagIds,setSelectedTagIds]= useState<number[]>([]);
 
+  // タグを全て取得する
+  const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/tags';
+    const {data:tagData, error:tagError,isLoading:tagIsLoading} = useSWR(url,fetcher);
+
+    const tags:TagType[] = camelcaseKeys(tagData ?? []);
+
+    //キーワード検索機能
   if(search){
     searchParams.set("q",search);
   }
-  const url = process.env.NEXT_PUBLIC_API_BASE_URL + `/api/v1/recipes?${searchParams.toString()}`;
-  const {data, isLoading } = useSWR(url, fetcher);
-  if(isLoading) return <div>loading...</div>
-  if(!data) return <div>データがありません。</div>
-  const recipes = camelcaseKeys(data);
+  //タグ検索機能
+  selectedTagIds.forEach((id) => {
+    searchParams.append("tag_ids[]",String(id));
+  });
+
+  const SearchUrl = process.env.NEXT_PUBLIC_API_BASE_URL + `/api/v1/recipes?${searchParams.toString()}`;
+  const {data:searchData, isLoading:searchIsLoading } = useSWR(SearchUrl, fetcher);
+
+  if(tagError) return <div>An error occurred.</div>
+  if(tagIsLoading) return <div>Loading...</div>
+  if (!tagData) return <div>タグがありません。</div>
+
+  if(searchIsLoading ) return <div>loading...</div>
+  if(!searchData) return <div>データがありません。</div>
+  const recipes = camelcaseKeys(searchData);
+
 
   return(
     <>
@@ -27,7 +48,8 @@ export default function RecipesIndexPage() {
     <Box sx={{mb:2}}>
       <Button variant="contained" color="primary" startIcon={<AddRoundedIcon/>}>追加</Button>
     </Box>
-    <SearchBar search={search} setSearch={setSearch} isLoading={isLoading} />
+    <SearchBar search={search} setSearch={setSearch} isLoading={searchIsLoading} />
+    <TagSelector tags={tags} selectedTagIds={selectedTagIds} onChange={setSelectedTagIds}/>
     <RecipesIndex recipes={recipes}/>
   </>
   )
