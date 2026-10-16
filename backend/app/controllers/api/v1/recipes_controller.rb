@@ -2,7 +2,25 @@ class Api::V1::RecipesController <  Api::V1::BaseController
 before_action :authenticate_user!
 
   def index
-    recipes = current_user.recipes.all
+    # recipes = current_user.recipes.all
+    # render json:
+    #   recipes.map { |recipe|
+    #   {
+    #     id: recipe.id,
+    #     title: recipe.title,
+    #     description: recipe.description,
+    #     thumbnail_url: recipe.thumbnail.attached? ? url_for(recipe.thumbnail) : nil,
+    #     rating: recipe.rating,
+    #     created_at: recipe.created_at
+    #   }
+    # }
+    recipes = current_user.recipes
+    if params[:q].present?
+      keyword = "%#{Recipe.sanitize_sql_like(params[:q])}%"
+      recipes = recipes.where(
+        "title LIKE :keyword",
+        keyword: keyword)
+    end
     render json:
       recipes.map { |recipe|
       {
