@@ -7,6 +7,7 @@ import camelcaseKeys from "camelcase-keys";
 import { TagType } from "@/app/types/RecipeType";
 
 export default function RecipeNewPage(){
+  // タグを全て取得する
     const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/tags';
     const {data, error,isLoading} = useSWR(url,fetcher);
     if(error) return <div>An error occurred.</div>

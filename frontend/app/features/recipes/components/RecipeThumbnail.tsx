@@ -6,12 +6,15 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { useState } from "react";
 import DeleteConfirmModal from "@/app/features/recipes/components/DeleteConfirmModal";
+import { useParams, useRouter } from "next/navigation";
 
 type RecipeProps = {
   recipe: RecipeType
 }
 
 export default function RecipeThumbnail({recipe}:RecipeProps) {
+  const router = useRouter();
+  const { id } = useParams();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -52,7 +55,7 @@ export default function RecipeThumbnail({recipe}:RecipeProps) {
                   sx:{ mt:1 }
                 }
               }}>
-                <MenuItem>
+                <MenuItem onClick={() => router.push(`/recipes/${id}/edit`)}>
                   <ListItemIcon>
                     <EditRoundedIcon fontSize="small" color="primary"/>
                   </ListItemIcon>

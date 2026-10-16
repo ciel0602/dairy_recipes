@@ -3,6 +3,7 @@ import { Box, Button, Divider, Grid, Stack,  Typography } from "@mui/material";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import IcecreamRoundedIcon from '@mui/icons-material/IcecreamRounded';
 import TakeoutDiningRoundedIcon from '@mui/icons-material/TakeoutDiningRounded';
+import ModeRoundedIcon from '@mui/icons-material/ModeRounded';
 import RecipeInfo from "../components/RecipeInfo";
 import { RecipeType } from "@/app/types/RecipeType";
 import BackButton from "@/app/components/BackButton";
@@ -35,11 +36,14 @@ const [amountRatio,setAmountRatio] = useState<number>(recipe.amountRatio);
           <RecipeInfo/>
         </Grid>
       </Grid>
-      <Box mb={3}>
-        <Button fullWidth startIcon={<CalendarMonthIcon/>} sx={{backgroundColor:'#F2EDE6',fontSize:14,py:1.5}}>
+      <Stack mb={3} direction="row" sx={{justifyContent:"center", alignItems:"center", gap:1.5}}>
+        <Button fullWidth startIcon={<CalendarMonthIcon/>} sx={{backgroundColor:'#F2EDE6',fontSize:14,py:1.5,borderRadius:"12px"}}>
       カレンダーに追加する
       </Button>
-      </Box>
+      <Button variant="contained" color="primary" fullWidth startIcon={<ModeRoundedIcon/>} sx={{fontSize:14,py:1.5,borderRadius:"12px"}}>
+      調理を記録する
+      </Button>
+      </Stack>
       {/* 材料 */}
       <Grid container spacing={2}>
         <Grid item xs={12} md={5}>

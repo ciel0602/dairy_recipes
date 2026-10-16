@@ -43,9 +43,6 @@ before_action :authenticate_user!
     recipe = current_user.recipes.build(recipe_params)
 
     if recipe.save
-      # Rails.logger.debug("params: #{params.to_unsafe_h.inspect}")
-      # Rails.logger.debug("recipe params: #{params[:recipe].inspect}")
-      # Rails.logger.debug("recipe_params: #{recipe_params.to_h.inspect}")
       recipe.tags = Tag.where(
         id: recipe_params[:tag_ids],
         user_id: current_user.id
@@ -56,8 +53,24 @@ before_action :authenticate_user!
       },
       status: :created
     else
-      render json {
-        message :"レシピ登録に失敗しました。",
+      render json: {
+        errors: recipe.errors.full_messages,
+        status: :unprocessable_content
+      }
+    end
+  end
+
+  def update
+    recipe = current_user.recipes.find(params[:id])
+
+    if recipe.update(recipe_params)
+      render json: {
+        message: "レシピを編集しました。",
+        recipe: recipe
+      },
+      status: :ok
+    else
+      render json: {
         errors: recipe.errors.full_messages,
         status: :unprocessable_content
       }
@@ -69,6 +82,7 @@ before_action :authenticate_user!
 
     recipe.destroy!
   end
+
 
   private
   def recipe_params
