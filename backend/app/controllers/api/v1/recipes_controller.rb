@@ -16,10 +16,22 @@ before_action :authenticate_user!
     # }
     recipes = current_user.recipes
     if params[:q].present?
-      keyword = "%#{Recipe.sanitize_sql_like(params[:q])}%"
+      keyword = Recipe.sanitize_sql_like(params[:q])
+      pattern = "%#{keyword}%"
+
       recipes = recipes.where(
-        "title LIKE :keyword",
-        keyword: keyword)
+        <<~SQL,
+          recipes.title LIKE :pattern
+          OR JSON_SEARCH(
+            recipes.ingredients,
+            'one',
+            :pattern,
+            '\\\\',
+            '$[*].name'
+          ) IS NOT NULL
+          SQL
+          pattern: pattern
+      )
     end
     render json:
       recipes.map { |recipe|
