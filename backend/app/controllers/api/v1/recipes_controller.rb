@@ -22,6 +22,7 @@ before_action :authenticate_user!
           pattern: pattern
       )
     end
+
     # タグ検索
     if params[:tag_ids].present?
       recipes = recipes
@@ -29,6 +30,14 @@ before_action :authenticate_user!
       .where(tags: { id: params[:tag_ids] })
       .distinct
     end
+
+    # 評価検索機能
+    if params[:ratings].present?
+      recipes = recipes
+      .where(rating: params[:ratings])
+      .distinct
+    end
+
     render json:
       recipes.map { |recipe|
       {

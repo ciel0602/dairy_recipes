@@ -8,13 +8,16 @@ import fetcher from "@/app/features/recipes/utils/fetcher";
 import RecipesIndex from "@/app/features/recipes/components/RecipesIndex";
 import camelcaseKeys from "camelcase-keys";
 import TagSelector from "@/app/features/recipes/components/TagSelector";
-import { TagType } from "@/app/types/RecipeType";
+import { RatingType, TagType } from "@/app/types/RecipeType";
+import RatingSelector from "@/app/features/recipes/components/RatingSelector";
+
 
 export default function RecipesIndexPage() {
   const searchParams = new URLSearchParams();
   const [search,setSearch] = useState("");
   const [selectedTagIds,setSelectedTagIds]= useState<number[]>([]);
-
+  const [selectedRatings,setSelectedRatings]= useState<RatingType[]>([]);
+  
   // タグを全て取得する
   const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/tags';
     const {data:tagData, error:tagError,isLoading:tagIsLoading} = useSWR(url,fetcher);
@@ -28,6 +31,10 @@ export default function RecipesIndexPage() {
   //タグ検索機能
   selectedTagIds.forEach((id) => {
     searchParams.append("tag_ids[]",String(id));
+  });
+  //評価別検索機能
+  selectedRatings.forEach((rating) => {
+    searchParams.append("ratings[]",String(rating));
   });
 
   const SearchUrl = process.env.NEXT_PUBLIC_API_BASE_URL + `/api/v1/recipes?${searchParams.toString()}`;
@@ -50,6 +57,7 @@ export default function RecipesIndexPage() {
     </Box>
     <SearchBar search={search} setSearch={setSearch} isLoading={searchIsLoading} />
     <TagSelector tags={tags} selectedTagIds={selectedTagIds} onChange={setSelectedTagIds}/>
+    <RatingSelector selectedRatings={selectedRatings} setSelectedRatings={setSelectedRatings} />
     <RecipesIndex recipes={recipes}/>
   </>
   )
