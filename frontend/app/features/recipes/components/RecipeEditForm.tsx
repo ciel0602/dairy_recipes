@@ -150,7 +150,6 @@ export default function RecipesEditForm({tags, recipe}:RecipeEditFormProps){
         <Controller 
         name="rating"
         control={control}
-        defaultValue={0}
         render={({field}) => (
           <Rating 
             {...field}

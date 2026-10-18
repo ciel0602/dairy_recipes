@@ -9,7 +9,7 @@ export type StepType = {
   description: string | null;
 };
 
-export type RatingType =  1 | 2 | 3 | 4 | 5 | null;
+export type RatingType =  1 | 2 | 3 | 4 | 5 ;
 
 
 export type RecipeIndexType = {
@@ -45,7 +45,7 @@ export type RecipeInputType = {
   title: string;
   description: string | null;
   tag_ids:number[];
-  rating:RatingType;
+  rating?:RatingType;
   amountRatio:number;
   ingredients: IngredientType[] | null;
   steps:StepType[] | null;

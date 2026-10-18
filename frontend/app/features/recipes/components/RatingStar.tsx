@@ -1,9 +1,10 @@
 import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
 import StarOutlineRoundedIcon from '@mui/icons-material/StarOutlineRounded';
 import { Stack } from '@mui/material';
+import { RatingType } from '@/app/types/RecipeType';
 
 type RatingStarProps = {
-  rating: 1 | 2 | 3 | 4 | 5;
+  rating: RatingType;
 };
 
 export default function RatingStar({rating}: RatingStarProps){

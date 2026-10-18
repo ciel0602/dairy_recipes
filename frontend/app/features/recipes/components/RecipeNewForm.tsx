@@ -25,7 +25,6 @@ export default function RecipesNewForm({tags}:tagsProps){
       title:"",
       description:"",
       tag_ids:[],
-      rating:0,
       amountRatio:1,
       ingredients:[
         {
@@ -157,7 +156,6 @@ export default function RecipesNewForm({tags}:tagsProps){
         <Controller 
         name="rating"
         control={control}
-        defaultValue={0}
         render={({field}) => (
           <Rating 
             {...field}
