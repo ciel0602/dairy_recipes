@@ -67,14 +67,22 @@ export default function RecipesIndexPage() {
     <Stack direction="row" sx={{width:"100%",mb:2,justifyContent:"flex-end"}}>
       <Button variant="outlined" color="primary" startIcon={<AddRoundedIcon/>} onClick={() => router.push("/recipes/new")}>レシピを追加する</Button>
     </Stack>
-    <SearchBar search={search} setSearch={setSearch} isLoading={searchIsLoading} />
-    <SortSelector sortOrder={sortOrder} setSortOrder={setSortOrder} />
+    <Box sx={{mb:3}}>
+      <SearchBar search={search} setSearch={setSearch} isLoading={searchIsLoading} />
+    </Box>
+    
+    <Box sx={{mb:1}}>
+      <SortSelector sortOrder={sortOrder} setSortOrder={setSortOrder} />
+    </Box>
 
     <Stack direction="row" sx={{justifyContent:"flex-start",alignItems:"flex-start"}}>
       <TagSelector tags={tags} selectedTagIds={selectedTagIds} onChange={setSelectedTagIds}/>
     </Stack>
     
-    <RatingSelector selectedRatings={selectedRatings} setSelectedRatings={setSelectedRatings} />
+    <Box sx={{mb:3}}>
+      <RatingSelector selectedRatings={selectedRatings} setSelectedRatings={setSelectedRatings} />
+    </Box>
+    
     <RecipesIndex recipes={recipes}/>
     <Stack direction="row" sx={{width:"100%",justifyContent:"center",alignItems:"center"}}>
       <Pagination
