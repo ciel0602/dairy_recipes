@@ -37,6 +37,7 @@ before_action :authenticate_user!
       .where(rating: params[:ratings])
       .distinct
     end
+
     # 表示順機能
     recipes = case params[:sort]
     when "newest"
@@ -49,8 +50,11 @@ before_action :authenticate_user!
       recipes.order(created_at: :desc)
     end
 
-    render json:
-      recipes.map { |recipe|
+    # ページネーション
+    recipes = recipes.page(params[:page]).per(10)
+
+    render json: {
+      recipes: recipes.map { |recipe|
       {
         id: recipe.id,
         title: recipe.title,
@@ -58,6 +62,12 @@ before_action :authenticate_user!
         thumbnail_url: recipe.thumbnail.attached? ? url_for(recipe.thumbnail) : nil,
         rating: recipe.rating,
         created_at: recipe.created_at
+      }
+    },
+      pagination: {
+        current_page: recipes.current_page,
+        total_pages: recipes.total_pages,
+        total_count: recipes.total_count
       }
     }
   end

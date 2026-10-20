@@ -1,4 +1,4 @@
-import { Box, Stack, Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from "@mui/material";
+import { Box, Stack, Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material";
 import RatingStar from "./RatingStar";
 import { useRouter } from "next/navigation";
 import { RecipeIndexType } from "@/app/types/RecipeType";

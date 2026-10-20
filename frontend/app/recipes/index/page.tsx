@@ -1,5 +1,5 @@
 'use client'
-import { Box, Button,Stack,Typography } from "@mui/material";
+import { Box, Button,Pagination,Stack,Typography } from "@mui/material";
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { useState } from "react";
 import SearchBar from "@/app/features/recipes/components/SearchBar";
@@ -20,6 +20,7 @@ export default function RecipesIndexPage() {
   const [sortOrder, setSortOrder] = useState<SortOrderType>("newest");
   const [selectedTagIds,setSelectedTagIds]= useState<number[]>([]);
   const [selectedRatings,setSelectedRatings]= useState<RatingType[]>([]);
+  const [page, setPage] = useState(1);
   const router = useRouter();
   
   // タグを全て取得する
@@ -40,9 +41,14 @@ export default function RecipesIndexPage() {
   selectedRatings.forEach((rating) => {
     searchParams.append("ratings[]",String(rating));
   });
+  //ページネーション機能
+  const handleChange = (e:React.ChangeEvent<unknown>,value:number) => {
+    setPage(value);
+  }
 
+  //レシピデータのフェッチ
   const SearchUrl = process.env.NEXT_PUBLIC_API_BASE_URL + `/api/v1/recipes?${searchParams.toString()}`;
-  const {data:searchData, isLoading:searchIsLoading } = useSWR([SearchUrl,sortOrder], fetcher);
+  const {data:searchData, isLoading:searchIsLoading } = useSWR([SearchUrl,sortOrder,page], fetcher);
 
   if(tagError) return <div>An error occurred.</div>
   if(tagIsLoading) return <div>Loading...</div>
@@ -50,7 +56,9 @@ export default function RecipesIndexPage() {
 
   if(searchIsLoading ) return <div>loading...</div>
   if(!searchData) return <div>データがありません。</div>
-  const  recipes = camelcaseKeys(searchData)
+  const  recipes = camelcaseKeys(searchData.recipes)
+  const totalPage = searchData.pagination.total_page
+
 
 
   return(
@@ -69,6 +77,16 @@ export default function RecipesIndexPage() {
     
     <RatingSelector selectedRatings={selectedRatings} setSelectedRatings={setSelectedRatings} />
     <RecipesIndex recipes={recipes}/>
+    <Stack direction="row" sx={{width:"100%",justifyContent:"center",alignItems:"center"}}>
+      <Pagination
+      variant="outlined"
+      shape="rounded"
+      color="primary"
+      count={totalPage}
+      page={page}
+      onChange={handleChange}
+      />
+    </Stack>
   </Box>
   )
 }
