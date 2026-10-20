@@ -1,13 +1,6 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
-#
+require "faker"
+Faker::Config.locale = :ja
+
 User.create!(name: "テストユーザー1", email: "test1@example.com", password: "password", confirmed_at: Time.current)
 
 
@@ -73,3 +66,53 @@ TagRelationship.create!(
   recipe: recipe,
   tag: tag,
 )
+
+# 100件のレシピのダミーデータを作成
+user = User.first
+
+recipe_names = [
+  "鶏肉の照り焼き",
+  "肉じゃが",
+  "親子丼",
+  "豚の生姜焼き",
+  "鮭の塩焼き",
+  "ハンバーグ",
+  "野菜炒め",
+  "カレーライス",
+  "オムライス",
+  "麻婆豆腐"
+]
+
+ingredients_list = [
+  { name: "鶏肉", quantity: "200", unit: "g" },
+  { name: "玉ねぎ", quantity: "1", unit: "個" },
+  { name: "醤油", quantity: "2", unit: "大さじ" },
+  { name: "砂糖", quantity: "1", unit: "小さじ" }
+]
+
+
+# 手順の候補
+steps_list = [
+  { step: 1, description: "材料を食べやすい大きさに切る" },
+  { step: 2, description: "フライパンで材料を炒める" },
+  { step: 3, description: "調味料を加えて煮込む" }
+]
+
+100.times do |i|
+  Recipe.create!(
+    user: user,
+    title: "#{recipe_names.sample}（デモ#{i + 1}）",
+    description: [
+      "家庭で作りやすい定番料理です。",
+      "普段の夕食におすすめの一品です。",
+      "材料をシンプルにした料理です。"
+    ].sample,
+    ingredients: ingredients_list.sample(3),
+    steps: steps_list,
+    rating: rand(0..5)
+  )
+  recipe.update_column(
+    :created_at,
+    Faker::Time.backward(days: 30)
+  )
+end
