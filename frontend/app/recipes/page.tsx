@@ -7,7 +7,7 @@ import RecipesIndex from "../features/recipes/components/RecipesIndex";
 
 export default function RecipesPage(){
   const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/recipes'
-  const { data, error, isLoading } = useSWR(url, fetcher);
+  const { data, error, isLoading } = useSWR([url], fetcher);
   if(error) return <div>An error occurred.</div>
   if(isLoading) return <div>Loading...</div>
   if (!data) return <div>データがありません。</div>

@@ -11,11 +11,11 @@ export default function RecipeEditPage() {
   const { id } = useParams();
   // タグを全て取得する
     const tagUrl = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/tags';
-    const {data:tagData, error:tagError, isLoading:tagLoading} = useSWR(tagUrl,fetcher);
+    const {data:tagData, error:tagError, isLoading:tagLoading} = useSWR([tagUrl],fetcher);
 
   //レシピデータを取得する
     const recipeUrl = process.env.NEXT_PUBLIC_API_BASE_URL + `/api/v1/recipes/${id}`;
-    const {data:recipeData, error:recipeError,isLoading: recipeLoading} = useSWR(recipeUrl, fetcher);
+    const {data:recipeData, error:recipeError,isLoading: recipeLoading} = useSWR([recipeUrl], fetcher);
 
     if(tagError) return <div>An error occurred.</div>
     if(tagLoading) return <div>Loading...</div>

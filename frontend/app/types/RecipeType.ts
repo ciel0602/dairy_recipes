@@ -50,3 +50,6 @@ export type RecipeInputType = {
   ingredients: IngredientType[] | null;
   steps:StepType[] | null;
 };
+
+export type SortOrderType = 
+"newest" | "oldest" | "rating" | "cookingCount";

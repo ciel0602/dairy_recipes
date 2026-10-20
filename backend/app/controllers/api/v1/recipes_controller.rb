@@ -37,6 +37,17 @@ before_action :authenticate_user!
       .where(rating: params[:ratings])
       .distinct
     end
+    # 表示順機能
+    recipes = case params[:sort]
+    when "newest"
+      recipes.order(created_at: :desc)
+    when "oldest"
+      recipes.order(created_at: :asc)
+    when "rating"
+      recipes.order(rating: :desc)
+    else
+      recipes.order(created_at: :desc)
+    end
 
     render json:
       recipes.map { |recipe|

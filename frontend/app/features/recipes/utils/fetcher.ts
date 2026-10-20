@@ -1,13 +1,17 @@
+import { SortOrderType } from "@/app/types/RecipeType";
 import axios from "axios";
-
-export default async function fetcher(url:string) {
+type fetcherKey = [string,SortOrderType?];
+export default async function fetcher([url,sortOrder]:fetcherKey) {
   try{
       const response = await axios.get(url,{
         headers:{
         'access-token':localStorage.getItem('access-token'),
         'client':localStorage.getItem('client'),
         'uid':localStorage.getItem('uid'),
-      }});
+        },
+        params:
+          sortOrder ? {sort:sortOrder} : {},
+        });
       const accessToken  = response.headers["access-token"]
       const client  = response.headers["client"]
       const uid  = response.headers["uid"]
