@@ -29,7 +29,7 @@ export default function RatingSelector({selectedRatings,setSelectedRatings}:Rati
               <Chip
                 key={rating}
                 clickable
-                label={`星${rating}`}
+                label={`★${rating}`}
                 onClick={() => handleClick(rating)}
                 icon={selected ? <CheckRoundedIcon/> : undefined }
                 color={selected ? "primary" : undefined}/>

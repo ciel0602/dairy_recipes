@@ -1,5 +1,5 @@
 'use client'
-import { Box, Button,Typography } from "@mui/material";
+import { Box, Button,Stack,Typography } from "@mui/material";
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { useState } from "react";
 import SearchBar from "@/app/features/recipes/components/SearchBar";
@@ -11,6 +11,7 @@ import TagSelector from "@/app/features/recipes/components/TagSelector";
 import { RatingType, SortOrderType, TagType } from "@/app/types/RecipeType";
 import RatingSelector from "@/app/features/recipes/components/RatingSelector";
 import SortSelector from "@/app/features/recipes/components/SortSelector";
+import { useRouter } from "next/navigation";
 
 
 export default function RecipesIndexPage() {
@@ -19,6 +20,7 @@ export default function RecipesIndexPage() {
   const [sortOrder, setSortOrder] = useState<SortOrderType>("newest");
   const [selectedTagIds,setSelectedTagIds]= useState<number[]>([]);
   const [selectedRatings,setSelectedRatings]= useState<RatingType[]>([]);
+  const router = useRouter();
   
   // タグを全て取得する
   const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/tags';
@@ -52,16 +54,21 @@ export default function RecipesIndexPage() {
 
 
   return(
-    <>
-    <Typography>レシピ帳</Typography>
-    <Box sx={{mb:2}}>
-      <Button variant="contained" color="primary" startIcon={<AddRoundedIcon/>}>追加</Button>
-    </Box>
+    <Box sx={{mb:12}}>
+    <Typography sx={{fontSize:24}}>レシピ帳</Typography>
+    <Stack direction="row" sx={{width:"100%",mb:2,justifyContent:"flex-end"}}>
+      <Button variant="outlined" color="primary" startIcon={<AddRoundedIcon/>} onClick={() => router.push("/recipes/new")}>レシピを追加する</Button>
+    </Stack>
     <SearchBar search={search} setSearch={setSearch} isLoading={searchIsLoading} />
     <SortSelector sortOrder={sortOrder} setSortOrder={setSortOrder} />
-    <TagSelector tags={tags} selectedTagIds={selectedTagIds} onChange={setSelectedTagIds}/>
+
+    <Stack direction="row" sx={{justifyContent:"flex-start",alignItems:"center"}}>
+      <Typography>タグ：</Typography>
+      <TagSelector tags={tags} selectedTagIds={selectedTagIds} onChange={setSelectedTagIds}/>
+    </Stack>
+    
     <RatingSelector selectedRatings={selectedRatings} setSelectedRatings={setSelectedRatings} />
     <RecipesIndex recipes={recipes}/>
-  </>
+  </Box>
   )
 }

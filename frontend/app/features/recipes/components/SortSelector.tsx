@@ -21,7 +21,7 @@ export default function SortSelector({sortOrder,setSortOrder}:SortSelectorProps)
   };
   
   return(
-    <Stack direction="row">
+    <Stack direction="row" sx={{justifyContent:"flex-start",alignItems:"center",gap:1}}>
       {sortOptions.map((sort) => (
         <Chip
           key={sort}
