@@ -1,7 +1,8 @@
 "use client"
 import { TagType } from "@/app/types/RecipeType";
-import { Box, Chip, ListItem, Stack } from "@mui/material";
+import { Box, Chip, ListItem, Stack, Typography } from "@mui/material";
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import { useState } from "react";
 
 type tagsProps = {
   tags:TagType[]
@@ -9,6 +10,8 @@ type tagsProps = {
   onChange:(tagIds:number[]) => void;
 }
 export default function TagSelector({tags,selectedTagIds,onChange}:tagsProps){
+
+  const [expand,setExpand] = useState(false);
 
   const handleClick = (tagId:number) =>{
     if(selectedTagIds.includes(tagId)){
@@ -19,12 +22,15 @@ export default function TagSelector({tags,selectedTagIds,onChange}:tagsProps){
   }
 
   return(
-    <Box>
-      <Stack direction="row" spacing={1} component="ul">
+    <Box sx={{mb:1}}>
+      <Stack direction="row" component="ul">
+        <Typography sx={{whiteSpace:"nowrap",mt:0.5}}>タグ：</Typography>
+        <Stack direction="row" sx={{justifyContent:"flex-start",alignContent:"flex-start",display: "flex",flexWrap: "wrap",overflow: "hidden",
+        maxHeight: expand ? "none" : "32px",}}>
         {tags.map((tag)=> {
           const selected = selectedTagIds.includes(tag.id)
           return(
-          <ListItem key={tag.id}>
+          <ListItem key={tag.id} sx={{px:0.3,py:0,width:"fit-content",maxWidth:"150px",mb:0.5}}>
             <Chip 
               label={tag.name} 
               clickable 
@@ -34,6 +40,13 @@ export default function TagSelector({tags,selectedTagIds,onChange}:tagsProps){
           </ListItem>
         );
         })}
+        </Stack>
+        {tags.length > 0 && (
+          <Chip
+          label={expand ? "閉じる" : "•••"}
+          clickable
+          onClick={() => setExpand((prev) => !prev)}/>
+        )}
       </Stack>
     </Box>
   )

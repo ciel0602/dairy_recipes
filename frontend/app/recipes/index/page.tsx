@@ -70,8 +70,7 @@ export default function RecipesIndexPage() {
     <SearchBar search={search} setSearch={setSearch} isLoading={searchIsLoading} />
     <SortSelector sortOrder={sortOrder} setSortOrder={setSortOrder} />
 
-    <Stack direction="row" sx={{justifyContent:"flex-start",alignItems:"center"}}>
-      <Typography>タグ：</Typography>
+    <Stack direction="row" sx={{justifyContent:"flex-start",alignItems:"flex-start"}}>
       <TagSelector tags={tags} selectedTagIds={selectedTagIds} onChange={setSelectedTagIds}/>
     </Stack>
     

@@ -98,8 +98,34 @@ steps_list = [
   { step: 3, description: "調味料を加えて煮込む" }
 ]
 
+# タグの候補
+tag_names = [
+  "お気に入り",
+  "時短",
+  "簡単",
+  "節約",
+  "作り置き",
+  "お弁当",
+  "夕食",
+  "朝食",
+  "和食",
+  "洋食",
+  "中華",
+  "肉料理",
+  "魚料理",
+  "野菜たっぷり",
+  "子どもに人気",
+  "リピートしたい",
+  "イベント",
+  "ヘルシー"
+]
+
+tags = tag_names.map do |name|
+  Tag.find_or_create_by!(name: name, user: user)
+end
+
 100.times do |i|
-  Recipe.create!(
+  recipe = Recipe.create!(
     user: user,
     title: "#{recipe_names.sample}（デモ#{i + 1}）",
     description: [
@@ -115,4 +141,6 @@ steps_list = [
     :created_at,
     Faker::Time.backward(days: 30)
   )
+
+recipe.tags = tags.sample(rand(1..4))
 end
