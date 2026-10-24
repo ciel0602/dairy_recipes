@@ -1,0 +1,13 @@
+:global(.calendar-cell:hover) { 
+  background-color: #FAF9F7 !important;
+}
+:global(.calendar-button){
+  background-color: #E85D04 !important;
+  border-color: #E85D04 !important;
+}
+:global(.date-text){
+  display: flex;
+  justify-content: center;
+}
+:global(.my-today) {  
+  box-shadow: inset 0 0 0 2px currentColor; }

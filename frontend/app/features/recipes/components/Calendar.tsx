@@ -7,35 +7,39 @@ import "@fullcalendar/react/skeleton.css";
 import "@fullcalendar/react/themes/classic/theme.css";
 import "@fullcalendar/react/themes/classic/palette.css";
 import styles from './Calendar.module.css';
+import { useState } from "react";
+import CalendarModal from "./CalendarModal";
+
 
 export default function Calendar(){
+  const [dateStr, setDateStr] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
   return (
+    <>
     <div className={styles.container}>
     <FullCalendar
-        plugins={[dayGridPlugin,interactionPlugin, classicThemePlugin]}
+        plugins={[dayGridPlugin,interactionPlugin,classicThemePlugin]}
         initialView="dayGridMonth"
         locale="ja"
         dayHeaderFormat={{weekday:'short'}}
         headerToolbar={{left:"prev",center:"title",right:"next"}}
-        dayCellDidMount={(args) => {
-        // args.el はその日のセル（td要素など）そのもの
-        const cellEl = args.el;
 
-        // マウスが乗ったとき
-        cellEl.addEventListener("mouseenter", () => {
-          cellEl.style.backgroundColor = "#e0f2fe";
-          cellEl.style.cursor = "pointer";
-        });
+        // 何日の「日」の非表示にする
+        dayCellTopContent={(arg) => ({
+          html: String(arg.date.getDate()),
+        })}
+        // calendar.module.css用のクラスを命名
+        dayCellClass="calendar-cell"
+        buttonClass="calendar-button"
+        dayCellTopClass="date-text"
 
-        // マウスが離れたとき
-        cellEl.addEventListener("mouseleave", () => {
-          cellEl.style.backgroundColor = "";
-        });
-      }}
         dateClick={(info) => {
-          console.log(info.dateStr);
+          setDateStr(info.dateStr);
+          setModalOpen(true);
         }}
     />
     </div>
+    <CalendarModal modalOpen={modalOpen} dateStr={dateStr} setModalOpen={setModalOpen}/>
+    </>
   )
 }
