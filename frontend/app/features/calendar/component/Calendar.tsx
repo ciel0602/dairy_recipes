@@ -6,9 +6,10 @@ import classicThemePlugin from "@fullcalendar/react/themes/classic";
 import "@fullcalendar/react/skeleton.css";
 import "@fullcalendar/react/themes/classic/theme.css";
 import "@fullcalendar/react/themes/classic/palette.css";
-import styles from './Calendar.module.css';
+import styles from "@/app/styles/Calendar.module.css";
 import { useState } from "react";
 import CalendarModal from "./CalendarModal";
+
 
 
 export default function Calendar(){
@@ -18,6 +19,7 @@ export default function Calendar(){
     <>
     <div className={styles.container}>
     <FullCalendar
+        timeZone="Asia/Tokyo"
         plugins={[dayGridPlugin,interactionPlugin,classicThemePlugin]}
         initialView="dayGridMonth"
         locale="ja"
@@ -34,6 +36,7 @@ export default function Calendar(){
         dayCellTopClass="date-text"
 
         dateClick={(info) => {
+          // 日付をフォーマットする
           setDateStr(info.dateStr);
           setModalOpen(true);
         }}

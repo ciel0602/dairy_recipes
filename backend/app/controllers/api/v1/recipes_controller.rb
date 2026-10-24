@@ -51,7 +51,8 @@ before_action :authenticate_user!
     end
 
     # ページネーション
-    recipes = recipes.page(params[:page]).per(10)
+    page = params[:page].presence || 1
+    recipes = recipes.page(page).per(10)
 
     render json: {
       recipes: recipes.map { |recipe|

@@ -57,7 +57,7 @@ export default function RecipesIndexPage() {
   if(searchIsLoading ) return <div>loading...</div>
   if(!searchData) return <div>データがありません。</div>
   const  recipes = camelcaseKeys(searchData.recipes)
-  const totalPage = searchData.pagination.total_page
+  const totalPage = searchData.pagination.total_pages
 
 
 
@@ -89,7 +89,7 @@ export default function RecipesIndexPage() {
       variant="outlined"
       shape="rounded"
       color="primary"
-      count={totalPage}
+      count={totalPage ?? 1}
       page={page}
       onChange={handleChange}
       />

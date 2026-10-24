@@ -13,7 +13,8 @@ type searchProps = {
 export default function SearchBar({search,setSearch,isLoading}:searchProps) {
   const [keyword, setKeyword] = useState("");
   
-  const handleSubmit = () => {
+  const handleSubmit = (e:React.SubmitEvent) => {
+    e.preventDefault();
     setSearch(keyword.trim());
   }
   return(
