@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       mount_devise_token_auth_for "User", at: "auth"
       resources :recipes, only: [ :index, :show, :create, :update, :destroy ]
       resources :tags, only: [ :index ]
+      resources :meal_plans, only: [ :index, :show, :create, :destroy ]
 
       namespace :current do
         resource :user, only: [ :show ]
