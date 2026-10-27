@@ -25,6 +25,7 @@ export default function Calendar(){
         locale="ja"
         dayHeaderFormat={{weekday:'short'}}
         headerToolbar={{left:"prev",center:"title",right:"next"}}
+        defaultAllDay={true}
 
         // 何日の「日」の非表示にする
         dayCellTopContent={(arg) => ({

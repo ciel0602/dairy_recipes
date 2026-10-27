@@ -1,6 +1,17 @@
 class Api::V1::MealPlansController < Api::V1::BaseController
   before_action :authenticate_user!
 
+  def index
+    meal_plans = current_user.meal_plans.all
+    render json:
+      meal_plans.map { |meal_plan|
+        {
+          recipe_id: meal_plan.recipe_id,
+          planned_date: meal_plan.planned_date
+        }
+      }
+  end
+
   def create
     recipe_ids = meal_plan_params[:recipe_ids]
     planned_date = meal_plan_params[:planned_date]
