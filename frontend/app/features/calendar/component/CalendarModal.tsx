@@ -4,6 +4,8 @@ import { useState } from "react";
 import MealPlanList from "./MealPlanList";
 import RecipeSelector from "./RecipeSelector";
 import { useSnackbarState } from "@/app/hooks/useSnackbarState";
+import { LoadingButton } from "@mui/lab";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 type CalendarModalProps = {
   dateStr:string;
@@ -24,13 +26,56 @@ const style = {
 export default function CalendarModal({dateStr,modalOpen,setModalOpen}:CalendarModalProps){
   const [mode, setMode] = useState<"planView"|"selectView">("planView");
   const [,setSnackbar] = useSnackbarState();
-  
+  const [selectedRecipeIds,setSelectedRecipeIds] = useState<number[]>([]);
+  const [isLoading,setIsLoading] = useState(false);
 
   const formattedDate = dateStr.replace(
     /^(\d{4})-(\d{2})-(\d{2})$/,
     (_, year, month, day) =>
       `${year}年${Number(month)}月${Number(day)}日`
     );
+
+  //カレンダーにレシピを追加
+  const handleClick = async() => {
+    setIsLoading(true);
+    const url = process.env.NEXT_PUBLIC_API_BASE_URL + '/api/v1/meal_plans'
+    const headers = {
+      'Content-Type':'application/json',
+      'access-token':localStorage.getItem('access-token'),
+      'client':localStorage.getItem('client'),
+      'uid':localStorage.getItem('uid'),
+    }
+    const data ={
+      "recipe_ids":selectedRecipeIds,
+      "planned_date":dateStr
+    }
+    await axios({method:"POST",url:url,headers:headers,data:data})
+    .then((response:AxiosResponse) => {
+      const accessToken  = response.headers["access-token"]
+      const client  = response.headers["client"]
+      const uid  = response.headers["uid"]
+      if (accessToken && client && uid) {
+        localStorage.setItem("access-token", accessToken);
+        localStorage.setItem("client", client);
+        localStorage.setItem("uid", uid);
+      }
+      setSnackbar({
+        severity:"success",
+        message:"カレンダーに追加しました。"
+      })
+    })
+    .catch((error:AxiosError<{error:string}>) => {
+      console.log(error.message)
+      setSnackbar({
+        message:"レシピ登録に失敗しました。",
+        severity:"error"
+      })
+    })
+    .finally(()=> {
+      setModalOpen(false);
+      setIsLoading(false);
+    })
+  }
   return(
     <>
     <Modal open={modalOpen}>
@@ -67,7 +112,7 @@ export default function CalendarModal({dateStr,modalOpen,setModalOpen}:CalendarM
           backgroundColor:"#F5EFE8",
           px:3,
           py:1}}>
-            <RecipeSelector />
+            <RecipeSelector selectedRecipeIds={selectedRecipeIds} setSelectedRecipeIds={setSelectedRecipeIds} />
           </Box>
           <Divider />
         <Stack direction="row" sx={{backgroundColor:"background.default",px:1.5,py:1,gap:1}}>
@@ -75,16 +120,11 @@ export default function CalendarModal({dateStr,modalOpen,setModalOpen}:CalendarM
           variant="outlined" 
           fullWidth
           onClick={() => setMode("planView")}>キャンセル</Button>
-          <Button 
+          <LoadingButton
+          loading={isLoading}
           variant="contained" 
           fullWidth
-          onClick={() => {
-            setSnackbar({
-              severity:"success",
-              message:"カレンダーに追加しました。"
-            })
-            setModalOpen(false);
-          }}>この日に追加する</Button>
+          onClick={() => handleClick()}>この日に追加する</LoadingButton>
         </Stack>
         </>
         }
