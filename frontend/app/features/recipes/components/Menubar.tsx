@@ -33,7 +33,7 @@ export default function Menubar(){
     },
     {
       title:"カレンダー",
-      path:"/recipes/calender",
+      path:"/recipes/calendar",
       Icon:<CalendarMonthIcon/>,
       outlinedIcon:<CalendarMonthOutlinedIcon/>
     },

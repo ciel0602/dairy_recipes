@@ -3,6 +3,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { useState } from "react";
 import MealPlanList from "./MealPlanList";
 import RecipeSelector from "./RecipeSelector";
+import { useSnackbarState } from "@/app/hooks/useSnackbarState";
 
 type CalendarModalProps = {
   dateStr:string;
@@ -22,6 +23,8 @@ const style = {
 
 export default function CalendarModal({dateStr,modalOpen,setModalOpen}:CalendarModalProps){
   const [mode, setMode] = useState<"planView"|"selectView">("planView");
+  const [,setSnackbar] = useSnackbarState();
+  
 
   const formattedDate = dateStr.replace(
     /^(\d{4})-(\d{2})-(\d{2})$/,
@@ -75,9 +78,13 @@ export default function CalendarModal({dateStr,modalOpen,setModalOpen}:CalendarM
           <Button 
           variant="contained" 
           fullWidth
-          onClick={() => console.log(
-            ""
-          )}>この日に追加する</Button>
+          onClick={() => {
+            setSnackbar({
+              severity:"success",
+              message:"カレンダーに追加しました。"
+            })
+            setModalOpen(false);
+          }}>この日に追加する</Button>
         </Stack>
         </>
         }

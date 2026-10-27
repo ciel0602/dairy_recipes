@@ -40,7 +40,6 @@ export default function RecipeCard({recipe,selectedRecipeIds,setSelectedRecipeId
           </Stack>
           <Checkbox
           checked={selected}
-          
             />
         </Stack>
       </CardActionArea>
