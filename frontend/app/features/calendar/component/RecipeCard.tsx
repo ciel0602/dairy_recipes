@@ -1,15 +1,30 @@
 import { RecipeIndexType } from "@/app/types/RecipeType";
-import { Box, Card, CardActionArea, CardContent, CardMedia, Stack, Typography } from "@mui/material";
+import { Box, Card, CardActionArea, CardContent, CardMedia, Checkbox, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import RatingStar from "../../recipes/components/RatingStar";
 
 type RecipeCardProps = {
   recipe:RecipeIndexType;
+  selectedRecipeIds:number[];
+  setSelectedRecipeIds:React.Dispatch<React.SetStateAction<number[]>>;
 }
-export default function RecipeCard({recipe}:RecipeCardProps){
+export default function RecipeCard({recipe,selectedRecipeIds,setSelectedRecipeIds}:RecipeCardProps){
+
+  // レシピを選択
+  const selected = selectedRecipeIds.includes(recipe.id);
+  const handleClick = (id:number) => {
+    if(selected){
+      setSelectedRecipeIds(selectedRecipeIds.filter((id) =>id !== recipe.id ))
+    }else{
+      setSelectedRecipeIds([...selectedRecipeIds,id])
+    }
+  }
+
   return(
-    <Card key={recipe.id} sx={{mb:1}}>
-        <CardActionArea onClick={() =>  console.log("追加")}>
+    // 選択時にボーダー色を変更
+    <Card key={recipe.id} sx={{mb:1,border:2, borderColor:selected ? "primary.main" : "transparent"}}>
+      <CardActionArea onClick={() =>  handleClick(recipe.id)}>
+        <Stack direction="row" sx={{justifyContent:"space-between",alignItems:"center"}}>
           <Stack direction="row" sx={{justifyContent:"flex-start",alignItems:"center",px:2,py:1.5,borderRadius:"12px"}}>
             {/* サムネイルURLの有無によって画像切り替え */}
             <Box sx={{width:64,height:64,borderRadius:"12px",overflow:"hidden",position: "relative",}}>
@@ -23,7 +38,12 @@ export default function RecipeCard({recipe}:RecipeCardProps){
               </Stack>
             </CardContent>
           </Stack>
-        </CardActionArea>
-      </Card>
+          <Checkbox
+          checked={selected}
+          
+            />
+        </Stack>
+      </CardActionArea>
+    </Card>
   )
 }

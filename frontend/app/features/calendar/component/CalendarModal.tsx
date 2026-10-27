@@ -67,7 +67,7 @@ export default function CalendarModal({dateStr,modalOpen,setModalOpen}:CalendarM
             <RecipeSelector />
           </Box>
           <Divider />
-        <Stack direction="row" sx={{backgroundColor:"background.default",px:1.5,py:1}}>
+        <Stack direction="row" sx={{backgroundColor:"background.default",px:1.5,py:1,gap:1}}>
           <Button 
           variant="outlined" 
           fullWidth
