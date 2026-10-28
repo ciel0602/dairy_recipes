@@ -1,6 +1,13 @@
+import { MealPlanType } from "@/app/types/MealPlanType";
 import { Box, Typography } from "@mui/material";
+import MealPlanCard from "./MealPlanCard";
 
-export default function MealPlanList(){
+
+type MealPlanListProps = {
+  mealPlans:MealPlanType[]
+}
+export default function MealPlanList({mealPlans}:MealPlanListProps){
+  const length = mealPlans.length
   return(
     <>
     <Box sx={{
@@ -10,7 +17,10 @@ export default function MealPlanList(){
       py:2,
       borderRadius:"8px,0"
     }}>
-      <Typography>レシピが登録されていません</Typography>
+      {length === 0 ? <Typography>レシピがありません。</Typography> : null }
+      {mealPlans.map((mealPlan) => (
+        <MealPlanCard key={mealPlan.id} mealPlan={mealPlan}/>
+      ))}
     </Box>
     </>
   )

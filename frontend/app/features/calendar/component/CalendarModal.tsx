@@ -6,8 +6,10 @@ import RecipeSelector from "./RecipeSelector";
 import { useSnackbarState } from "@/app/hooks/useSnackbarState";
 import { LoadingButton } from "@mui/lab";
 import axios, { AxiosError, AxiosResponse } from "axios";
+import { MealPlanType } from "@/app/types/MealPlanType";
 
 type CalendarModalProps = {
+  mealPlans: MealPlanType[];
   dateStr:string;
   modalOpen: boolean;
   setModalOpen:React.Dispatch<React.SetStateAction<boolean>>
@@ -23,7 +25,7 @@ const style = {
   'bgcolor':"background.default",
 };
 
-export default function CalendarModal({dateStr,modalOpen,setModalOpen}:CalendarModalProps){
+export default function CalendarModal({mealPlans,dateStr,modalOpen,setModalOpen}:CalendarModalProps){
   const [mode, setMode] = useState<"planView"|"selectView">("planView");
   const [,setSnackbar] = useSnackbarState();
   const [selectedRecipeIds,setSelectedRecipeIds] = useState<number[]>([]);
@@ -63,6 +65,7 @@ export default function CalendarModal({dateStr,modalOpen,setModalOpen}:CalendarM
         severity:"success",
         message:"カレンダーに追加しました。"
       })
+      window.location.reload();
     })
     .catch((error:AxiosError<{error:string}>) => {
       console.log(error.message)
@@ -76,6 +79,10 @@ export default function CalendarModal({dateStr,modalOpen,setModalOpen}:CalendarM
       setIsLoading(false);
     })
   }
+  const selectedMealPlans = mealPlans.filter((mealPlan) => (
+    mealPlan.plannedDate === dateStr
+  ));
+
   return(
     <>
     <Modal open={modalOpen}>
@@ -83,7 +90,7 @@ export default function CalendarModal({dateStr,modalOpen,setModalOpen}:CalendarM
         <Stack direction="row" sx={{justifyContent:"space-between",alignItems:"center",px:3,py:2}}>
           <Box>
             <Typography sx={{fontSize:20,fontWeight:600}}>{formattedDate}</Typography>
-            <Typography sx={{fontSize:12,fontWeight:400,color:"text.secondary"}}>0件のレシピ</Typography>
+            <Typography sx={{fontSize:12,fontWeight:400,color:"text.secondary"}}>{selectedMealPlans.length}件のレシピ</Typography>
           </Box>
           <IconButton onClick={()=> setModalOpen(false)}>
             <CloseRoundedIcon />
@@ -94,7 +101,7 @@ export default function CalendarModal({dateStr,modalOpen,setModalOpen}:CalendarM
         {/* プランビュー */}
         {mode === "planView" && 
         <>
-        <MealPlanList />
+        <MealPlanList mealPlans={selectedMealPlans} />
         <Divider/>
         <Box sx={{px:3,py:1,backgroundColor:"background.default"}}>
           <Button 

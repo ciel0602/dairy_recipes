@@ -3,11 +3,20 @@ class Api::V1::MealPlansController < Api::V1::BaseController
 
   def index
     meal_plans = current_user.meal_plans.all
+
     render json:
       meal_plans.map { |meal_plan|
+      recipe = meal_plan.recipe
         {
-          recipe_id: meal_plan.recipe_id,
-          planned_date: meal_plan.planned_date
+          id: meal_plan.id,
+          planned_date: meal_plan.planned_date,
+          recipe: {
+            id: meal_plan.recipe.id,
+            title: meal_plan.recipe.title,
+            thumbnail_url: meal_plan.recipe.thumbnail.attached? ? url_for(recipe.thumbnail) : nil,
+            rating: meal_plan.recipe.rating,
+            created_at: meal_plan.recipe.created_at
+          }
         }
       }
   end
